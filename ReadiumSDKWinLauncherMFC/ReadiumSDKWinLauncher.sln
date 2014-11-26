@@ -1,14 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReadiumSDKWinLauncherMFC", "ReadiumSDKWinLauncher\ReadiumSDKWinLauncher.vcxproj", "{ACFC4B2E-1A56-4258-8BA9-837001386138}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0E71C486-6CCA-49E9-BD8A-40894EC70931} = {0E71C486-6CCA-49E9-BD8A-40894EC70931}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReadiumSDK-WinLauncher", "..\ReadiumWinSDKLauncher\ReadiumWinSDKLauncher.vcxproj", "{FECD9462-A5AD-3814-B1AD-E3FB583697DC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ePub3", "..\readium-sdk\Platform\Windows\ReadiumSDK\ePub3\ePub3.vcxproj", "{0E71C486-6CCA-49E9-BD8A-40894EC70931}"
 EndProject
@@ -43,8 +41,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

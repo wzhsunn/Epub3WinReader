@@ -609,6 +609,9 @@ protected:
     ///
     /// B
     string Sanitized(const string& path) const;
+
+	size_type bytes_left;
+	size_type total_size;
 };
 
 /**

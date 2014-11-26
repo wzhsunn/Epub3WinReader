@@ -24,6 +24,7 @@
 #include "byte_stream.h"
 #include "make_unique.h"
 #include <sstream>
+#undef open
 #include <fstream>
 #include <iostream>
 #if EPUB_OS(UNIX)
@@ -98,19 +99,33 @@ static string GetTempFilePath(const string& ext)
 class ZipReader : public ArchiveReader
 {
 public:
-    ZipReader(struct zip_file* file) : _file(file), _total_size(_file->bytes_left) {}
+	ZipReader(struct zip_file* file) : _file(file), _total_size(0/*_file->bytes_left*/), bytes_left(0)
+	{
+		struct zip_stat st;
+		if (zip_source_stat(file->src, &st)==0)
+		{
+			_total_size = st.size;
+			bytes_left = _total_size;
+		}
+	}
     ZipReader(ZipReader&& o) : _file(o._file) { o._file = nullptr; }
     virtual ~ZipReader() { if (_file != nullptr) zip_fclose(_file); }
     
-    virtual bool operator !() const { return _file == nullptr || _file->bytes_left == 0; }
-	virtual ssize_t read(void* p, size_t len) const { return zip_fread(_file, p, len); }
+    virtual bool operator !() const { return _file == nullptr || /*_file->*/bytes_left == 0; }
+	virtual ssize_t read(void* p, size_t len) const { 
+		size_t curLen = zip_fread(_file, p, std::min(bytes_left,len) );
+		if (curLen!=-1)
+			((ZipReader*)this)->bytes_left -= curLen;
+		return curLen;
+	}
 
 	virtual size_t total_size() const { return _total_size; }
-	virtual size_t position() const { return _total_size - _file->bytes_left; }
+	virtual size_t position() const { return _total_size - /*_file->*/bytes_left; }
     
 private:
     struct zip_file * _file;
 	size_t _total_size;
+	size_t bytes_left;
 };
 
 class ZipWriter : public ArchiveWriter
@@ -148,7 +163,7 @@ public:
     ZipWriter(struct zip* zip, const string& path, bool compressed);
     ZipWriter(ZipWriter&& o);
     virtual ~ZipWriter() { if (_zsrc != nullptr) zip_source_free(_zsrc); }
-    
+
     virtual bool operator !() const { return false; }
     virtual ssize_t write(const void *p, size_t len) { _data.Append(p, len); return static_cast<ssize_t>(len); }
     
@@ -184,7 +199,7 @@ ZipArchive::ZipArchive(const string & path)
     int zerr = 0;
     _zip = zip_open(path.c_str(), ZIP_CREATE, &zerr);
     if ( _zip == nullptr )
-        throw std::runtime_error(std::string("zip_open() failed: ") + zError(zerr));
+		throw std::runtime_error(std::string("zip_open() failed: ") /*+ zError(zerr)*/ );	// Den: this has been commented out to workaround crash in case of zip errors
     _path = path;
 }
 ZipArchive::~ZipArchive()
@@ -199,6 +214,19 @@ Archive & ZipArchive::operator = (ZipArchive &&o)
     _zip = o._zip;
     o._zip = nullptr;
     return dynamic_cast<Archive&>(*this);
+}
+void ZipArchive::EachItem(std::function<void (const ArchiveItemInfo &)> fn) const
+{
+    struct zip_stat zinfo = {0};
+    zip_stat_init(&zinfo);
+    for (int i = 0, n = zip_get_num_files(_zip); i < n; i++)
+    {
+        if (zip_stat_index(_zip, i, 0, &zinfo) < 0)
+            continue;
+        
+        ZipItemInfo info(zinfo);
+        fn(info);
+    }
 }
 bool ZipArchive::ContainsItem(const string & path) const
 {
@@ -281,7 +309,8 @@ size_t ZipWriter::DataBlob::Read(void *data, size_t len)
 ZipWriter::ZipWriter(struct zip *zip, const string& path, bool compressed)
     : _compressed(compressed)
 {
-    _zsrc = zip_source_function(zip, &ZipWriter::_source_callback, reinterpret_cast<void*>(this));
+	assert(0);
+    //_zsrc = zip_source_function(zip, &ZipWriter::_source_callback, reinterpret_cast<void*>(this));
 }
 ZipWriter::ZipWriter(ZipWriter&& o) : _compressed(o._compressed), _data(std::move(o._data)), _zsrc(o._zsrc)
 {

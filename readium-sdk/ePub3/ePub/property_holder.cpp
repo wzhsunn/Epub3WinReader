@@ -3,21 +3,20 @@
 //  ePub3
 //
 //  Created by Jim Dovey on 2013-05-06.
-//  Copyright (c) 2012-2013 The Readium Foundation and contributors.
+//  Copyright (c) 2014 Readium Foundation and/or its licensees. All rights reserved.
 //  
-//  The Readium SDK is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+//  This program is distributed in the hope that it will be useful, but WITHOUT ANY 
+//  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 //  
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+//  Licensed under Gnu Affero General Public License Version 3 (provided, notwithstanding this notice, 
+//  Readium Foundation reserves the right to license this material under a different separate license, 
+//  and if you have done so, the terms of that separate license control and the following references 
+//  to GPL do not apply).
 //  
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
+//  This program is free software: you can redistribute it and/or modify it under the terms of the GNU 
+//  Affero General Public License as published by the Free Software Foundation, either version 3 of 
+//  the License, or (at your option) any later version. You should have received a copy of the GNU 
+//  Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "property_holder.h"
 #include REGEX_INCLUDE
@@ -27,6 +26,7 @@ EPUB3_BEGIN_NAMESPACE
 #if EPUB_COMPILER_SUPPORTS(CXX_INITIALIZER_LISTS)
 const PropertyHolder::PropertyVocabularyMap PropertyHolder::ReservedVocabularies({
     { "", "http://idpf.org/epub/vocab/package/#" },
+    //{ "rendition", "http://www.idpf.org/vocab/rendition/#" },
     { "dcterms", "http://purl.org/dc/terms/" },
     { "marc", "http://id.loc.gov/vocabulary/" },
     { "media", "http://www.idpf.org/epub/vocab/overlays/#" },
@@ -61,6 +61,7 @@ typedef PropertyHolder::PropertyVocabularyMap::value_type __vmap_t;
 typedef std::pair<const string, bool> __mtype_t;
 static const __vmap_t __vmap_values[6] = {
     __vmap_t("", "http://idpf.org/epub/vocab/package/#"),
+    //__vmap_t("rendition", "http://www.idpf.org/vocab/rendition/#"),
     __vmap_t("dcterms", "http://purl.org/dc/terms/"),
     __vmap_t("marc", "http://id.loc.gov/vocabulary/"),
     __vmap_t("media", "http://www.idpf.org/epub/vocab/overlays/#"),
@@ -90,7 +91,7 @@ static const __mtype_t __mtype_values[14] = {
     __mtype_t("text/css", true),                             // EPUB Style Sheets
     __mtype_t("text/javascript", true)                       // Scripts
 };
-const PropertyHolder::PropertyVocabularyMap PropertyHolder::ReservedVocabularies(&__vmap_values[0], &__vmap_values[6]);
+const PropertyHolder::PropertyVocabularyMap PropertyHolder::ReservedVocabularies(&__vmap_values[0], &__vmap_values[5]);
 const std::map<const string, bool> PropertyHolder::CoreMediaTypes(&__mtype_values[0], &__mtype_values[14]);
 #endif
 
@@ -251,6 +252,9 @@ PropertyPtr PropertyHolder::PropertyMatching(DCType type, bool lookupParents) co
 }
 PropertyPtr PropertyHolder::PropertyMatching(const IRI& iri, bool lookupParents) const
 {
+    // DEBUG
+    auto iriString = iri.URIString();
+
     for ( auto &i : _properties )
     {
         if ( i->PropertyIdentifier() == iri )
@@ -270,7 +274,7 @@ PropertyPtr PropertyHolder::PropertyMatching(const string& reference, const stri
 {
     IRI iri = MakePropertyIRI(reference, prefix);
     if ( iri.IsEmpty() )
-        return false;
+        return nullptr;
     return PropertyMatching(iri, lookupParents);
 }
 

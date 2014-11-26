@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Learning Ally</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="static/sdk.css" />
+    <link rel="stylesheet" type="text/css" href="static/MOHighlight.css" />
+</head>
+
+<body style="padding-left: 0px;" >
+    <div id="viewport"></div>
+</body>
+
+	<script src="lib/rangy/rangy-core.js" type="text/javascript"></script>
+	<script src="lib/rangy/rangy-textrange.js" type="text/javascript"></script>
+	<script src="lib/rangy/rangy-highlighter.js" type="text/javascript"></script>
+	<script src="lib/rangy/rangy-cssclassapplier.js" type="text/javascript"></script>
+	<script src="lib/rangy/rangy-position.js" type="text/javascript"></script>
+    <!-- script src="lib/rangy/rangy-serializer.js" type="text/javascript"></script>
+    <script src="lib/rangy/rangy-selectionsaverestore.js" type="text/javascript"></script -->
+        
+
+    <script src="lib/jquery-1.11.0.js" type="text/javascript"></script>
+    <script src="lib/jquery.tabbable.js" type="text/javascript"></script>
+    <script src="lib/jquery.sizes.js" type="text/javascript"></script>
+    <script src="lib/underscore.min.js" type="text/javascript"></script>
+    <script src="lib/backbone.min.js" type="text/javascript"></script>
+    <script src="lib/URI.js" type="text/javascript"></script>
+    <script src="lib/annotations_module.js" type="text/javascript"></script>
+    <!--script src="lib/console_shim.js" type="text/javascript"></script -->
+    <script src="js/readium_sdk.js" type="text/javascript"></script>
+    <script src="js/helpers.js" type="text/javascript"></script>
+    
+    <script src="js/models/style.js" type="text/javascript"></script>
+    <script src="js/models/style_collection.js" type="text/javascript"></script>
+    <script src="js/models/trigger.js" type="text/javascript"></script>
+    <script src="js/models/switches.js" type="text/javascript"></script>
+    <script src="js/models/smil_model.js" type="text/javascript"></script>
+    <script src="js/models/media_overlay.js" type="text/javascript"></script>
+    <script src="js/models/viewer_settings.js" type="text/javascript"></script>
+    <script src="js/models/bookmark_data.js" type="text/javascript"></script>
+    <script src="js/models/spine_item.js" type="text/javascript"></script>
+    <script src="js/models/spine.js" type="text/javascript"></script>
+    <script src="js/models/fixed_page_spread.js" type="text/javascript"></script>
+    <script src="js/models/package.js" type="text/javascript"></script>
+    <script src="js/models/current_pages_info.js" type="text/javascript"></script>
+    <script src="js/models/page_open_request.js" type="text/javascript"></script>
+    <script src="js/models/smil_iterator.js" type="text/javascript"></script>
+
+    <script src="lib/epub_cfi.js" type="text/javascript"></script>
+
+    <script src="js/views/iframe_loader.js" type="text/javascript"></script>
+    <script src="js/views/internal_links_support.js" type="text/javascript"></script>
+    <script src="js/views/cfi_navigation_logic.js" type="text/javascript"></script>
+    <script src="js/views/reflowable_view.js" type="text/javascript"></script>
+    <script src="js/views/scroll_view.js" type="text/javascript"></script>
+    <script src="js/views/one_page_view.js" type="text/javascript"></script>
+    <script src="js/views/fixed_view.js" type="text/javascript"></script>
+    <script src="js/views/reader_view.js" type="text/javascript"></script>
+    <script src="js/views/media_overlay_element_highlighter.js"></script>
+    <script src="js/views/audio_player.js" type="text/javascript"></script>
+    <script src="js/views/media_overlay_player.js" type="text/javascript"></script>
+    <script src="js/views/media_overlay_data_injector.js" type="text/javascript"></script>
+    <script src="js/views/annotations_manager.js" type="text/javascript"></script>
+    <!-- the script below is required to update user settings (one column view) -->
+    <script src="host_app_feedback.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    // The epubReadingSystem object provides an interface through which a Scripted Content
+    // Document can query information about a User's Reading System.
+    //
+    // More information is available [here](http://idpf.org/epub/30/spec/epub30-contentdocs.html#app-epubReadingSystem)
+
+    navigator.epubReadingSystem = {
+        name: "ReadiumSDK",
+        version: ReadiumSDK.version(),
+        layoutStyle: "paginated",
+
+        hasFeature: function (feature, version) {
+
+            // for now all features must be version 1.0 so fail fast if the user has asked for something else
+            if (version && version !== "1.0") {
+                return false;
+            }
+
+            if (feature === "dom-manipulation") {
+                // Scripts may make structural changes to the document's DOM (applies to spine-level scripting only).
+                return true;
+            }
+            if (feature === "layout-changes") {
+                // Scripts may modify attributes and CSS styles that affect content layout (applies to spine-level scripting only).
+                return true;
+            }
+            if (feature === "touch-events") {
+                // The device supports touch events and the Reading System passes touch events to the content.
+                return true;
+            }
+            if (feature === "mouse-events") {
+                // The device supports mouse events and the Reading System passes mouse events to the content.
+                return true;
+            }
+            if (feature === "keyboard-events") {
+                // The device supports keyboard events and the Reading System passes keyboard events to the content.
+                return true;
+            }
+            if (feature === "spine-scripting") {
+                //Spine-level scripting is supported.
+                return true;
+            }
+
+            return false;
+
+        }
+    };
+
+    $(document).ready(function () {
+        "use strict";
+
+        ReadiumSDK.reader = new ReadiumSDK.Views.ReaderView({ el: "#viewport" });
+        ReadiumSDK.trigger("ReaderInitialized");
+
+    });
+    //debugger;
+    function get_browser() {
+        var N = navigator.appName, ua = navigator.userAgent, tem;
+        var M = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if (M && (tem = ua.match(/version\/([\.\d]+)/i)) != null) M[2] = tem[1];
+        M = M ? [M[1], M[2]] : [N, navigator.appVersion, '-?'];
+        return M[0];
+    }
+    function get_browser_version() {
+        var N = navigator.appName, ua = navigator.userAgent, tem;
+        var M = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if (M && (tem = ua.match(/version\/([\.\d]+)/i)) != null) M[2] = tem[1];
+        M = M ? [M[1], M[2]] : [N, navigator.appVersion, '-?'];
+        return M[1];
+    }
+
+    //var browser = get_browser();
+    //var browser_version=get_browser_version();
+    //alert(browser+ '  ' + browser_version);
+    //var _audioElement = new Audio();alert(_audioElement);
+</script>
+
+</html>

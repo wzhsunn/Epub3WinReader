@@ -432,11 +432,9 @@ CString getWebServerPath()
 	TCHAR szDirectory[MAX_PATH];
 	::GetCurrentDirectory(sizeof(szDirectory)-1, szDirectory);
 	CString sDirectoryPath(szDirectory); 
-	//sDirectoryPath += L"\\readium-shared-js-develop";
-	sDirectoryPath += L"\\readium-shared-js-0.10";
-	//sDirectoryPath += L"\\readium-shared-js-04-08-14";
-	//sDirectoryPath += L"\\readium-shared-js-0.13";
-	//sDirectoryPath += L"\\readium-shared-js";
+
+	sDirectoryPath += L"\\readium-shared-js-0.15";
+
 	return sDirectoryPath;
 }
 bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std::string& mimeTxt)
