@@ -433,7 +433,7 @@ CString getWebServerPath()
 	::GetCurrentDirectory(sizeof(szDirectory)-1, szDirectory);
 	CString sDirectoryPath(szDirectory); 
 
-	sDirectoryPath += L"\\readium-shared-js-0.15";
+	sDirectoryPath += L"\\..\\readium-shared-js";
 
 	return sDirectoryPath;
 }

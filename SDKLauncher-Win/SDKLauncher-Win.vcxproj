@@ -82,13 +82,14 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\include;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\ePub3;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\..\readium-sdk\Platform\Windows\ReadiumSDK\Prebuilt\Lib\x86\libxml2_a.lib;..\..\readium-sdk\Platform\Windows\ReadiumSDK\Prebuilt\Lib\x86\zlib.lib;../Release\ePub3.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Release\ePub3.lib;Advapi32.lib</AdditionalDependencies>
       <Profile>true</Profile>
     </Link>
     <Midl>
@@ -129,6 +130,7 @@
     <ClCompile Include="json.cpp" />
     <ClCompile Include="mongoose.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MsHttpServer.cpp" />
     <ClCompile Include="SDKLauncher-Win.cpp" />
