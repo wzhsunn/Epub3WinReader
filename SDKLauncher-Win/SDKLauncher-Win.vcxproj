@@ -14,7 +14,7 @@
     <ProjectGuid>{ACFC4B2E-1A56-4258-8BA9-837001386138}</ProjectGuid>
     <RootNamespace>ReadiumSDKWinLauncher</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <ProjectName>ReadiumSDKWinLauncherMFC</ProjectName>
+    <ProjectName>SDKLauncher-Win</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -54,13 +54,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\include;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\ePub3;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\..\readium-sdk\Platform\Windows\ReadiumSDK\Prebuilt\Lib\x86\libxml2_a.lib;..\..\readium-sdk\Platform\Windows\ReadiumSDK\Prebuilt\Lib\x86\zlib.lib;..\Debug\ePub3.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Debug\ePub3.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -105,8 +104,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="res\ReadiumSDKWinLauncher.ico" />
-    <None Include="res\ReadiumSDKWinLauncher.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="atldispa.h" />
@@ -116,9 +113,9 @@
     <ClInclude Include="json.h" />
     <ClInclude Include="mongoose.h" />
     <ClInclude Include="MsHttpServer.h" />
-    <ClInclude Include="ReadiumSDKWinLauncher.h" />
-    <ClInclude Include="ReadiumSDKWinLauncherDlg.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SDKLauncher-Win.h" />
+    <ClInclude Include="SDKLauncher-WinDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WndResizer.h" />
@@ -131,15 +128,11 @@
     <ClCompile Include="explorer.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="mongoose.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MsHttpServer.cpp" />
-    <ClCompile Include="ReadiumSDKWinLauncher.cpp" />
-    <ClCompile Include="ReadiumSDKWinLauncherDlg.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../readium-sdk/Platform\Windows\include;../../readium-sdk/Platform\Windows\ReadiumSDK\Prebuilt\Include;../../readium-sdk/ePub3;../../readium-sdk/ePub3\utilities;../../readium-sdk/ePub3\ePub;../../readium-sdk/ePub3\ThirdParty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../../readium-sdk/Platform\Windows\include;../../readium-sdk/Platform\Windows\ReadiumSDK\Prebuilt\Include;../../readium-sdk/ePub3;../../readium-sdk/ePub3\utilities;../../readium-sdk/ePub3\ePub;../../readium-sdk/ePub3\ThirdParty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="SDKLauncher-Win.cpp" />
+    <ClCompile Include="SDKLauncher-WinDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -147,7 +140,7 @@
     <ClCompile Include="WndResizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ReadiumSDKWinLauncher.rc" />
+    <ResourceCompile Include="SDKLauncher-Win.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "ReadiumSDKWinLauncher.h"
-#include "ReadiumSDKWinLauncherDlg.h"
+#include "SDKLauncher-Win.h"
+#include "SDKLauncher-WinDlg.h"
 #include "afxdialogex.h"
 
 #include "JS2CPP.h"

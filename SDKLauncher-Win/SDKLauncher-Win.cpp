@@ -3,8 +3,8 @@
 //
 
 #include "stdafx.h"
-#include "ReadiumSDKWinLauncher.h"
-#include "ReadiumSDKWinLauncherDlg.h"
+#include "SDKLauncher-Win.h"
+#include "SDKLauncher-WinDlg.h"
 #include "MsHttpServer.h"
 
 #ifdef _DEBUG

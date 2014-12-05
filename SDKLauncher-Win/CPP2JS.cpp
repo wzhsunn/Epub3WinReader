@@ -622,9 +622,9 @@ void ReadiumJSApi::loadJSOnReady(QString jScript)
 }
 void ReadiumJSApi::initReadiumSDK()
 {
-	using namespace	ePub3;
-	InitializeSdk();
-	PopulateFilterManager();
+	//using namespace	ePub3;
+	ePub3::InitializeSdk();
+	ePub3::PopulateFilterManager();
 }
 ReadiumJSApi::ReadiumJSApi(CExplorer*pWebBrowser_):WebBrowser(pWebBrowser_), bMediaOverlayToggled(false)
 {

@@ -8,18 +8,18 @@
 #include <string>
 
 #if _USE_READIUM
-#include "../../readium-sdk/ePub3/ePub/initialization.h"
-#include "../../readium-sdk/ePub3/ePub/archive.h"
-#include "../../readium-sdk/ePub3/xml/utilities/io.h"
-#include "../../readium-sdk/ePub3/ePub/filter_manager_impl.h"
-#include "../../readium-sdk\ePub3\ePub\media-overlays_smil_model.h"
+#include <ePub3\initialization.h>
+#include <ePub3\archive.h>
+#include <ePub3\xml\io.h>
+#include <ePub3\filter_manager_impl.h>
+#include <ePub3\media-overlays_smil_model.h>
 using namespace ePub3;
 //#define EPUB_PATH "F:/Work/GitHub/readium-sdk/TestData/alice3.epub"
 //#define EPUB_PATH "F:/Work/GitHub/readium-sdk/TestData/dante-hell.epub"
-#define EPUB_PATH "F:/Work/GitHub/readium-sdk/TestData/moby-dick-preview-collection.epub"
-#include "byte_stream.h"
-#include "container.h"
-#include "nav_table.h"
+//#define EPUB_PATH "F:/Work/GitHub/readium-sdk/TestData/moby-dick-preview-collection.epub"
+#include <ePub3\utilities\byte_stream.h>
+#include <ePub3\container.h>
+#include <ePub3\nav_table.h>
 
 #include "json.h"
 
