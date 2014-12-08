@@ -112,7 +112,6 @@
     <ClInclude Include="explorer.h" />
     <ClInclude Include="JS2CPP.h" />
     <ClInclude Include="json.h" />
-    <ClInclude Include="mongoose.h" />
     <ClInclude Include="MsHttpServer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SDKLauncher-Win.h" />
@@ -128,10 +127,6 @@
     </ClCompile>
     <ClCompile Include="explorer.cpp" />
     <ClCompile Include="json.cpp" />
-    <ClCompile Include="mongoose.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="MsHttpServer.cpp" />
     <ClCompile Include="SDKLauncher-Win.cpp" />
     <ClCompile Include="SDKLauncher-WinDlg.cpp" />
