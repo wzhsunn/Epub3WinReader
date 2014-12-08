@@ -22,7 +22,7 @@ public:
 	void digInto(TOCEntry& tocEntry, HTREEITEM hParent);
 
 // Dialog Data
-	enum { IDD = IDD_READIUMSDKWINLAUNCHER_DIALOG };
+	enum { IDD = IDD_SDKLAUNCHER_WIN_DIALOG };
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
