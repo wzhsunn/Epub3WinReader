@@ -310,6 +310,7 @@ QJsonObject ReadiumJSApi::getPackageJSON(PackagePtr pckg)
 
 
 			curItem["idref"] = QString(pSpineItem->Idref().c_str());	//[dict setObject : _idref forKey : @"idref"];
+			curItem["media_type"] = QString(pSpineItem->ManifestItem()->MediaType().c_str());	//[dict setObject : _idref forKey : @"idref"];
 
 			//pSpineItem->Spread()
 			//enum class PageSpread
