@@ -3,6 +3,7 @@
 
 PackagePtr pkg;	// TODO: move it into ReadiumJSApi class!!!
 //CCriticalSection g_cs;
+
 void ReadiumJSApi::digInto(const NavigationList& list, TOCEntry& rOut)
 {
 	std::string sBaseUrl = getBasePath();	// fast fix
@@ -23,6 +24,7 @@ void ReadiumJSApi::digInto(const NavigationList& list, TOCEntry& rOut)
 		digInto(list, (rOut.arrChildren.back()) );
 	}
 }
+
 void ReadiumJSApi::getTOCList(TOCEntry &rOut)
 {
 	std::list<std::pair<std::string, std::string> > lst;
@@ -36,6 +38,7 @@ void ReadiumJSApi::getTOCList(TOCEntry &rOut)
 
 	digInto(list, rOut);
 }
+
 std::list<std::pair<std::string, std::string> > ReadiumJSApi::getSpineList()
 {
 //	CSingleLock lock(&g_cs, TRUE);
@@ -70,6 +73,7 @@ std::list<std::pair<std::string, std::string> > ReadiumJSApi::getSpineList()
 		//curItem["idref"] = QString(pSpineItem->Idref().c_str());	//[dict setObject : _idref forKey : @"idref"];
 		pSpineItem = pkg->SpineItemAt(idx++);
 	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	return ret;
@@ -83,6 +87,7 @@ std::list<std::pair<std::string, std::string> > ReadiumJSApi::getSpineList()
 	//	//qDebug() << (*v)->Title().c_str();
 	//}
 }
+
 std::string ReadiumJSApi::getBasePath()
 {
 	if (pkg)
@@ -91,6 +96,7 @@ std::string ReadiumJSApi::getBasePath()
 	}
 	return "";
 }
+
 std::string ReadiumJSApi::getBookTitle()
 {
 	if (pkg)

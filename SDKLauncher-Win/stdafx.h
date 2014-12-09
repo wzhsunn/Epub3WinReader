@@ -48,4 +48,7 @@
 #endif
 #endif
 
-
+// for tracking memory leaks
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>

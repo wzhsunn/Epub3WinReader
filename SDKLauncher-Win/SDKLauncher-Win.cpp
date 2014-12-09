@@ -1,5 +1,5 @@
 
-// ReadiumSDKWinLauncher.cpp : Defines the class behaviors for the application.
+// SDKLauncherWin.cpp : Defines the class behaviors for the application.
 //
 
 #include "stdafx.h"
@@ -12,16 +12,16 @@
 #endif
 
 
-// CReadiumSDKWinLauncherApp
+// CSDKLauncherWinApp
 
-BEGIN_MESSAGE_MAP(CReadiumSDKWinLauncherApp, CWinApp)
+BEGIN_MESSAGE_MAP(CSDKLauncherWinApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CReadiumSDKWinLauncherApp construction
+// CSDKLauncherWinApp construction
 
-CReadiumSDKWinLauncherApp::CReadiumSDKWinLauncherApp()
+CSDKLauncherWinApp::CSDKLauncherWinApp()
 {
 	// support Restart Manager
 	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
@@ -31,14 +31,14 @@ CReadiumSDKWinLauncherApp::CReadiumSDKWinLauncherApp()
 }
 
 
-// The one and only CReadiumSDKWinLauncherApp object
+// The one and only CSDKLauncherWinApp object
 
-CReadiumSDKWinLauncherApp theApp;
+CSDKLauncherWinApp theApp;
 
 
-// CReadiumSDKWinLauncherApp initialization
+// CSDKLauncherWinApp initialization
 
-BOOL CReadiumSDKWinLauncherApp::InitInstance()
+BOOL CSDKLauncherWinApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -70,7 +70,7 @@ BOOL CReadiumSDKWinLauncherApp::InitInstance()
 
 	startMsHTTPServerThread();
 	
-	CReadiumSDKWinLauncherDlg dlg;
+	CSDKLauncherWinDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)

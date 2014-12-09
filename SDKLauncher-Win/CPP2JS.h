@@ -157,11 +157,13 @@ struct DNePubSdkApi
 	~DNePubSdkApi(){
 		dealloc();
 	}
+
 	void initialize()
 	{
 		ePub3::InitializeSdk();
 		ePub3::PopulateFilterManager();
 	}
+
 	void openFile(QString file)
 	{
 		dealloc();
@@ -182,10 +184,12 @@ struct DNePubSdkApi
 		}
 
 	}
+
 	ePub3::Container::PackageList getPackages()
 	{
 		return _packages;
 	}
+
 	void dealloc()
 	{
 		_packages.clear();

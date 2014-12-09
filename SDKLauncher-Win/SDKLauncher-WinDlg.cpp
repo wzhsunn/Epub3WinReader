@@ -1,4 +1,4 @@
-// ReadiumSDKWinLauncherDlg.cpp : implementation file
+// SDKLauncher-WinDlg.cpp : implementation file
 //
 
 #include "stdafx.h"
@@ -51,39 +51,39 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CReadiumSDKWinLauncherDlg dialog
-CReadiumSDKWinLauncherDlg::CReadiumSDKWinLauncherDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CReadiumSDKWinLauncherDlg::IDD, pParent)
+// CSDKLauncherWinDlg dialog
+CSDKLauncherWinDlg::CSDKLauncherWinDlg(CWnd* pParent /*=NULL*/)
+	: CDialogEx(CSDKLauncherWinDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	g_cpp2ReadiumJS.WebBrowser = &m_explorer;
 }
 
-void CReadiumSDKWinLauncherDlg::DoDataExchange(CDataExchange* pDX)
+void CSDKLauncherWinDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EXPLORER1, m_explorer);
 	DDX_Control(pDX, IDC_TREE1, m_tree);
 }
 
-BEGIN_MESSAGE_MAP(CReadiumSDKWinLauncherDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CSDKLauncherWinDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON1, &CReadiumSDKWinLauncherDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDOK, &CReadiumSDKWinLauncherDlg::OnBnClickedOk)
-	ON_BN_CLICKED(IDC_BUTTON3, &CReadiumSDKWinLauncherDlg::OnBnClickedButton3)
-	ON_BN_CLICKED(IDC_BUTTON2, &CReadiumSDKWinLauncherDlg::OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_BUTTON4, &CReadiumSDKWinLauncherDlg::OnBnClickedButton4)
-	ON_BN_CLICKED(IDC_BUTTON5, &CReadiumSDKWinLauncherDlg::OnBnClickedButton5)
-	ON_COMMAND(ID_FILE_OPENEPUB3FILE, &CReadiumSDKWinLauncherDlg::OnFileOpenepub3file)
-	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE1, &CReadiumSDKWinLauncherDlg::OnTvnSelchangedTree1)
+	ON_BN_CLICKED(IDC_BUTTON1, &CSDKLauncherWinDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDOK, &CSDKLauncherWinDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_BUTTON3, &CSDKLauncherWinDlg::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON2, &CSDKLauncherWinDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON4, &CSDKLauncherWinDlg::OnBnClickedButton4)
+	ON_BN_CLICKED(IDC_BUTTON5, &CSDKLauncherWinDlg::OnBnClickedButton5)
+	ON_COMMAND(ID_FILE_OPENEPUB3FILE, &CSDKLauncherWinDlg::OnFileOpenepub3file)
+	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE1, &CSDKLauncherWinDlg::OnTvnSelchangedTree1)
 END_MESSAGE_MAP()
 
 
-// CReadiumSDKWinLauncherDlg message handlers
+// CSDKLauncherWinDlg message handlers
 
-BOOL CReadiumSDKWinLauncherDlg::OnInitDialog()
+BOOL CSDKLauncherWinDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	//m_tree.SetExtendedStyle(TVS_EX_AUTOHSCROLL, TVS_EX_AUTOHSCROLL);
@@ -176,7 +176,7 @@ BOOL CReadiumSDKWinLauncherDlg::OnInitDialog()
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-void CReadiumSDKWinLauncherDlg::OnSysCommand(UINT nID, LPARAM lParam)
+void CSDKLauncherWinDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
@@ -193,7 +193,7 @@ void CReadiumSDKWinLauncherDlg::OnSysCommand(UINT nID, LPARAM lParam)
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CReadiumSDKWinLauncherDlg::OnPaint()
+void CSDKLauncherWinDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -220,38 +220,38 @@ void CReadiumSDKWinLauncherDlg::OnPaint()
 
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
-HCURSOR CReadiumSDKWinLauncherDlg::OnQueryDragIcon()
+HCURSOR CSDKLauncherWinDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedButton1()
+void CSDKLauncherWinDlg::OnBnClickedButton1()
 {
 	g_cpp2ReadiumJS.previousMediaOverlay();
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedOk()
+void CSDKLauncherWinDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	CDialogEx::OnOK();
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedButton3()
+void CSDKLauncherWinDlg::OnBnClickedButton3()
 {
 	g_cpp2ReadiumJS.turnMediaOverlayOff();
 	g_cpp2ReadiumJS.openPageLeft();
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedButton2()
+void CSDKLauncherWinDlg::OnBnClickedButton2()
 {
 	g_cpp2ReadiumJS.toggleMediaOverlay();
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedButton4()
+void CSDKLauncherWinDlg::OnBnClickedButton4()
 {
 	g_cpp2ReadiumJS.nextMediaOverlay();
 }
-void CReadiumSDKWinLauncherDlg::OnBnClickedButton5()
+void CSDKLauncherWinDlg::OnBnClickedButton5()
 {
 	g_cpp2ReadiumJS.turnMediaOverlayOff();
 	g_cpp2ReadiumJS.openPageRight();
 }
-void CReadiumSDKWinLauncherDlg::OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult)
+void CSDKLauncherWinDlg::OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 	//CString s = m_tree.GetItemText(pNMTreeView->itemNew.hItem);
@@ -266,10 +266,10 @@ void CReadiumSDKWinLauncherDlg::OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pRe
 	*pResult = 0;
 }
 
-BEGIN_EVENTSINK_MAP(CReadiumSDKWinLauncherDlg, CDialogEx)
-	ON_EVENT(CReadiumSDKWinLauncherDlg, IDC_EXPLORER1, 104, CReadiumSDKWinLauncherDlg::DownloadCompleteExplorer1, VTS_NONE)
+BEGIN_EVENTSINK_MAP(CSDKLauncherWinDlg, CDialogEx)
+	ON_EVENT(CSDKLauncherWinDlg, IDC_EXPLORER1, 104, CSDKLauncherWinDlg::DownloadCompleteExplorer1, VTS_NONE)
 END_EVENTSINK_MAP()
-void CReadiumSDKWinLauncherDlg::DownloadCompleteExplorer1()
+void CSDKLauncherWinDlg::DownloadCompleteExplorer1()
 {
 	// Install JS->C++ callbacks (g_readiumJS2Cpp)
 	ICustomDoc* doc = 0;
@@ -289,14 +289,14 @@ void CReadiumSDKWinLauncherDlg::DownloadCompleteExplorer1()
 	else
 		AfxMessageBox(L"Error getting Trident's document interface" );
 }
-void CReadiumSDKWinLauncherDlg::SetWindowCaption()
+void CSDKLauncherWinDlg::SetWindowCaption()
 {
 	std::string sTitle = g_cpp2ReadiumJS.getBookTitle();
 	CString cstr(sTitle.c_str());
 	SetWindowText((LPCTSTR)(cstr + CString(" - ReadiumWinSDKLauncher")));
 }
 
-void CReadiumSDKWinLauncherDlg::OnFileOpenepub3file()
+void CSDKLauncherWinDlg::OnFileOpenepub3file()
 {
 	
 	CFileDialog fileDialog(1, NULL, L"*.epub");	//объект класса выбора файла
@@ -351,7 +351,7 @@ void CReadiumSDKWinLauncherDlg::OnFileOpenepub3file()
 	}
 	
 }
-void CReadiumSDKWinLauncherDlg::digInto(TOCEntry& tocEntry, HTREEITEM hParent)
+void CSDKLauncherWinDlg::digInto(TOCEntry& tocEntry, HTREEITEM hParent)
 {
 	for (int i = 0; i < tocEntry.arrChildren.size(); ++i)
 	{

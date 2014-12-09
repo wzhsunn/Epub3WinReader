@@ -1,5 +1,5 @@
 
-// ReadiumSDKWinLauncherDlg.h : header file
+// SDKLauncherWinDlg.h : header file
 //
 
 #pragma once
@@ -9,14 +9,14 @@
 #include <map>
 
 
-// CReadiumSDKWinLauncherDlg dialog
+// CSDKLauncherWinDlg dialog
 struct TOCEntry;
 
-class CReadiumSDKWinLauncherDlg : public CDialogEx
+class CSDKLauncherWinDlg : public CDialogEx
 {
 // Construction
 public:
-	CReadiumSDKWinLauncherDlg(CWnd* pParent = NULL);	// standard constructor
+	CSDKLauncherWinDlg(CWnd* pParent = NULL);	// standard constructor
 	
 	void SetWindowCaption();
 	void digInto(TOCEntry& tocEntry, HTREEITEM hParent);

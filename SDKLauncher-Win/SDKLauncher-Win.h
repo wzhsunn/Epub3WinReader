@@ -1,5 +1,5 @@
 
-// ReadiumSDKWinLauncher.h : main header file for the PROJECT_NAME application
+// SDKLauncherWin.h : main header file for the PROJECT_NAME application
 //
 
 #pragma once
@@ -11,14 +11,14 @@
 #include "resource.h"		// main symbols
 
 
-// CReadiumSDKWinLauncherApp:
-// See ReadiumSDKWinLauncher.cpp for the implementation of this class
+// CSDKLauncherWinApp:
+// See SDKLauncherWn.cpp for the implementation of this class
 //
 
-class CReadiumSDKWinLauncherApp : public CWinApp
+class CSDKLauncherWinApp : public CWinApp
 {
 public:
-	CReadiumSDKWinLauncherApp();
+	CSDKLauncherWinApp();
 
 // Overrides
 public:
@@ -30,4 +30,4 @@ public:
 	
 };
 
-extern CReadiumSDKWinLauncherApp theApp;
+extern CSDKLauncherWinApp theApp;
