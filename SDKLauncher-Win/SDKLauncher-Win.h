@@ -8,6 +8,11 @@
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
 
+#define VISUAL_LEAK_DETECTOR 0
+#ifdef VISUAL_LEAK_DETECTOR
+#include "vld.h"
+#endif
+
 #include "resource.h"		// main symbols
 
 
