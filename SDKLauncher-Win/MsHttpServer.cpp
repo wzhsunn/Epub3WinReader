@@ -1,8 +1,14 @@
+//
+// This code is derived from example code provided by Microsoft.
+//
+// Code from http://msdn.microsoft.com/en-us/library/windows/desktop/aa364640(v=vs.85).aspx
+//
+
 #include "stdafx.h"
 #include "MsHttpServer.h"
 #include <string>
 
-//Code from http://msdn.microsoft.com/en-us/library/windows/desktop/aa364640(v=vs.85).aspx
+
 
 //
 // Macros.

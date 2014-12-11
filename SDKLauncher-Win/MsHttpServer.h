@@ -1,6 +1,11 @@
+//
+// This code is derived from example code provided by Microsoft.
+//
+// Code from http://msdn.microsoft.com/en-us/library/windows/desktop/aa364640(v=vs.85).aspx
+//
+
 #pragma once
-// from HTTP Server Sample Application
-// http://msdn.microsoft.com/en-us/library/windows/desktop/aa364640(v=vs.85).aspx
+
 #ifndef UNICODE
 #define UNICODE
 #endif
