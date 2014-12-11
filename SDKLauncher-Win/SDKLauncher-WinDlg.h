@@ -12,6 +12,7 @@
 // CSDKLauncherWinDlg dialog
 struct TOCEntry;
 
+#define READER_SCRIPTS_LOCATION   L"\\..\\Scripts"
 class CSDKLauncherWinDlg : public CDialogEx
 {
 // Construction

@@ -293,7 +293,7 @@ void CSDKLauncherWinDlg::SetWindowCaption()
 {
 	std::string sTitle = g_cpp2ReadiumJS.getBookTitle();
 	CString cstr(sTitle.c_str());
-	SetWindowText((LPCTSTR)(cstr + CString(" - ReadiumWinSDKLauncher")));
+	SetWindowText((LPCTSTR)(cstr + CString("SDKLauncher-Win")));
 }
 
 void CSDKLauncherWinDlg::OnFileOpenepub3file()
@@ -431,9 +431,10 @@ CString getWebServerPath()
 {
 	TCHAR szDirectory[MAX_PATH];
 	::GetCurrentDirectory(sizeof(szDirectory)-1, szDirectory);
+
 	CString sDirectoryPath(szDirectory); 
 
-	sDirectoryPath += L"\\..\\readium-shared-js";
+	sDirectoryPath += READER_SCRIPTS_LOCATION;
 
 	return sDirectoryPath;
 }

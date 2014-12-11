@@ -73,6 +73,13 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>cd $(MSBuildProjectDirectory)
+cscript CopyResources.js</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy the script resources to the common folder</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
