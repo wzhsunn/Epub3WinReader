@@ -182,6 +182,9 @@ void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QF
 
 bool ReadiumJSApi::getByteResp(std::string sURI, BYTE** bytes, ULONGLONG* pSize)
 {
+	if (!pkg) {
+		return false;
+	}
 //	CSingleLock lock(&g_cs, TRUE);
 	//QByteArray byteArr;
 	//sURI = sURI.mid(1);
