@@ -62,6 +62,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Debug\ePub3.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
