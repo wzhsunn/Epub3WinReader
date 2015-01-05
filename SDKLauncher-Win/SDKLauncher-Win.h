@@ -43,9 +43,10 @@
 // CSDKLauncherWinApp:
 // See SDKLauncherWn.cpp for the implementation of this class
 //
-
+#include "MsHttpServer.h"
 class CSDKLauncherWinApp : public CWinApp
 {
+	MSHttpAPIWrapper httpServer;
 public:
 	CSDKLauncherWinApp();
 

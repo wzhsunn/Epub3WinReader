@@ -94,7 +94,9 @@ BOOL CSDKLauncherWinApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
-	startMsHTTPServerThread();
+	
+	httpServer.startMsHTTPServerThread();
+	
 	
 	CSDKLauncherWinDlg dlg;
 	m_pMainWnd = &dlg;

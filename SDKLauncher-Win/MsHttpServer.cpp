@@ -1,231 +1,65 @@
+// 
+//  SDKLauncherWin.h : main header file for the PROJECT_NAME application
 //
-// This code is derived from example code provided by Microsoft.
-//
-// Code from http://msdn.microsoft.com/en-us/library/windows/desktop/aa364640(v=vs.85).aspx
-//
+//  Copyright (c) 2014 Readium Foundation and/or its licensees. All rights reserved.
+//  
+//  Redistribution and use in source and binary forms, with or without modification,
+//  are permitted provided that the following conditions are met :
+//  1. Redistributions of source code must retain the above copyright notice, this
+//  list of conditions and the following disclaimer.
+//  2. Redistributions in binary form must reproduce the above copyright notice,
+//  this list of conditions and the following disclaimer in the documentation and / or
+//  other materials provided with the distribution.
+//  3. Neither the name of the organization nor the names of its contributors may
+//  be used to endorse or promote products derived from this software without
+//  specific prior written permission.
+//  
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+//  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+//  ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+//  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//  CONSEQUENTIAL DAMAGES(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//  CONTRACT, STRICT LIABILITY, OR TORT(INCLUDING NEGLIGENCE OR OTHERWISE)
+//  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+//  THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "stdafx.h"
 #include "MsHttpServer.h"
-#include <string>
 
-
-
-//
-// Macros.
-//
-#define INITIALIZE_HTTP_RESPONSE( resp, status, reason )    \
-do                                                      \
-	{                                                       \
-	RtlZeroMemory((resp), sizeof(*(resp)));           \
-	(resp)->StatusCode = (status);                      \
-	(resp)->pReason = (reason);                         \
-	(resp)->ReasonLength = (USHORT)strlen(reason);     \
-	} while (FALSE)
-
-#define ADD_KNOWN_HEADER(Response, HeaderId, RawValue)               \
-do                                                               \
-	{                                                                \
-	(Response).Headers.KnownHeaders[(HeaderId)].pRawValue = \
-	(RawValue); \
-	(Response).Headers.KnownHeaders[(HeaderId)].RawValueLength = \
-	(USHORT)strlen(RawValue);                               \
-	} while (FALSE)
-
-#define ALLOC_MEM(cb) HeapAlloc(GetProcessHeap(), 0, (cb))
-
-#define FREE_MEM(ptr) HeapFree(GetProcessHeap(), 0, (ptr))
-
-//
-// Prototypes.
-//
-DWORD DoReceiveRequests(HANDLE hReqQueue);
-
-DWORD
-SendHttpResponse(
-IN HANDLE        hReqQueue,
-IN PHTTP_REQUEST pRequest,
-IN USHORT        StatusCode,
-IN PSTR          pReason,
-IN PSTR          pEntity
-);
-
-DWORD
-SendHttpPostResponse(
-IN HANDLE        hReqQueue,
-IN PHTTP_REQUEST pRequest
-);
-
-
-/*******************************************************************++
-
-Routine Description:
-main routine
-
-Arguments:
-argc - # of command line arguments.
-argv - Arguments.
-
-Return Value:
-Success/Failure
-
---*******************************************************************/
-int __cdecl _wmain_(
-	int argc,
-	wchar_t * argv[]
-	)
+void MSHttpAPIWrapper::Cleanup()
 {
-	ULONG           retCode;
-	HANDLE          hReqQueue = NULL;
-	int             UrlAdded = 0;
-	HTTPAPI_VERSION HttpApiVersion = HTTPAPI_VERSION_1;
-
-	if (argc < 2)
-	{
-		wprintf(L"%ws: <Url1> [Url2] ... \n", argv[0]);
-		return -1;
-	}
-
-	//Initialize the HTTP Service
-	//
-	// Initialize HTTP Server APIs
-	//
-	retCode = HttpInitialize(
-		HttpApiVersion,
-		HTTP_INITIALIZE_SERVER,    // Flags
-		NULL                       // Reserved
-		);
-
-	if (retCode != NO_ERROR)
-	{
-		wprintf(L"HttpInitialize failed with %lu \n", retCode);
-		return retCode;
-	}
-
-	//
-	// Create a Request Queue Handle
-	//
-	retCode = HttpCreateHttpHandle(
-		&hReqQueue,        // Req Queue
-		0                  // Reserved
-		);
-
-	if (retCode != NO_ERROR)
-	{
-		wprintf(L"HttpCreateHttpHandle failed with %lu \n", retCode);
-		goto CleanUp;
-	}
-
-	// Register the URLs to Listen On
-	//
-	// The command line arguments represent URIs that to 
-	// listen on. Call HttpAddUrl for each URI.
-	//
-	// The URI is a fully qualified URI and must include the
-	// terminating (/) character.
-	//
-	for (int i = 1; i < argc; i++)
-	{
-		wprintf(L"listening for requests on the following url: %s\n", argv[i]);
-
-		retCode = HttpAddUrl(
-			hReqQueue,    // Req Queue
-			argv[i],      // Fully qualified URL
-			NULL          // Reserved
-			);
-
-		if (retCode != NO_ERROR)
-		{
-			wprintf(L"HttpAddUrl failed with %lu \n", retCode);
-			goto CleanUp;
-		}
-		else
-		{
-			//
-			// Track the currently added URLs.
-			//
-			UrlAdded++;
-		}
-	}
-	// Call the Routine to Receive a Request
-	DoReceiveRequests(hReqQueue);
-	// Cleanup the HTTP Server API
-CleanUp:
-
-	//
-	// Call HttpRemoveUrl for all added URLs.
-	//
-	for (int i = 1; i <= UrlAdded; i++)
-	{
-		HttpRemoveUrl(
-			hReqQueue,     // Req Queue
-			argv[i]        // Fully qualified URL
-			);
-	}
-
-	//
-	// Close the Request Queue handle.
-	//
 	if (hReqQueue)
 	{
-		CloseHandle(hReqQueue);
+		for (int i = 0; i < arrOfURLs.size(); i++)	// Call HttpRemoveUrl for all added URLs.
+		{
+			HttpRemoveUrl(hReqQueue, arrOfURLs[i].c_str());
+		}
+		CloseHandle(hReqQueue);		// Close the Request Queue handle.
+		hReqQueue = 0;
 	}
-
-	// 
-	// Call HttpTerminate.
-	//
-	HttpTerminate(HTTP_INITIALIZE_SERVER, NULL);
-
-	return retCode;
+	if (bHTTPInitialized)
+	{
+		HttpTerminate(HTTP_INITIALIZE_SERVER, NULL);// Call HttpTerminate.
+		bHTTPInitialized = false;
+	}
+	freeBufferMem();
 }
-
-	//Receive a Request
-/*******************************************************************++
-
-Routine Description:
-The function to receive a request. This function calls the
-corresponding function to handle the response.
-
-Arguments:
-hReqQueue - Handle to the request queue
-
-Return Value:
-Success/Failure.
-
---*******************************************************************/
-DWORD DoReceiveRequests(
-	IN HANDLE hReqQueue
-	)
+ULONG MSHttpAPIWrapper::DoReceiveRequests()
 {
 	ULONG              result;
 	HTTP_REQUEST_ID    requestId;
 	DWORD              bytesRead;
 	PHTTP_REQUEST      pRequest;
-	PCHAR              pRequestBuffer;
-	ULONG              RequestBufferLength;
 
-	//
-	// Allocate a 2 KB buffer. This size should work for most 
-	// requests. The buffer size can be increased if required. Space
-	// is also required for an HTTP_REQUEST structure.
-	//
-	RequestBufferLength = sizeof(HTTP_REQUEST)+2048;
-	pRequestBuffer = (PCHAR)ALLOC_MEM(RequestBufferLength);
-
-	if (pRequestBuffer == NULL)
-	{
-		return ERROR_NOT_ENOUGH_MEMORY;
-	}
-
-	pRequest = (PHTTP_REQUEST)pRequestBuffer;
-
-	//
 	// Wait for a new request. This is indicated by a NULL 
 	// request ID.
-	//
-
+	pRequest = (PHTTP_REQUEST)pRequestBuffer;
 	HTTP_SET_NULL_ID(&requestId);
 
-	for (;;)
+	for (; !bStop;)
 	{
 		RtlZeroMemory(pRequest, RequestBufferLength);
 
@@ -238,6 +72,7 @@ DWORD DoReceiveRequests(
 			&bytesRead,         // bytes received
 			NULL                // LPOVERLAPPED
 			);
+
 		//Handle the HTTP Request
 		if (NO_ERROR == result)
 		{
@@ -247,37 +82,18 @@ DWORD DoReceiveRequests(
 			switch (pRequest->Verb)
 			{
 			case HttpVerbGET:
-				wprintf(L"Got a GET request for %ws \n",
-					pRequest->CookedUrl.pFullUrl);
-
-				result = SendHttpResponse(
-					hReqQueue,
-					pRequest,
-					200,
-					"OK",
-					"Hey! You hit the server \r\n"
-					);
+				wprintf(L"Got a GET request for %ws \n", pRequest->CookedUrl.pFullUrl);
+				result = SendHttpResponse(pRequest, 200, "OK", "Hey! You hit the server \r\n");
 				break;
 
 			case HttpVerbPOST:
-
-				wprintf(L"Got a POST request for %ws \n",
-					pRequest->CookedUrl.pFullUrl);
-
-				result = SendHttpPostResponse(hReqQueue, pRequest);
+				wprintf(L"Got a POST request for %ws \n", pRequest->CookedUrl.pFullUrl);
+				result = SendHttpResponse(pRequest, 503, "Not Implemented", NULL);
 				break;
 
 			default:
-				wprintf(L"Got a unknown request for %ws \n",
-					pRequest->CookedUrl.pFullUrl);
-
-				result = SendHttpResponse(
-					hReqQueue,
-					pRequest,
-					503,
-					"Not Implemented",
-					NULL
-					);
+				wprintf(L"Got a unknown request for %ws \n", pRequest->CookedUrl.pFullUrl);
+				result = SendHttpResponse(pRequest, 503, "Not Implemented", NULL);
 				break;
 			}
 
@@ -285,11 +101,7 @@ DWORD DoReceiveRequests(
 			{
 				break;
 			}
-
-			//
-			// Reset the Request ID to handle the next request.
-			//
-			HTTP_SET_NULL_ID(&requestId);
+			HTTP_SET_NULL_ID(&requestId);// Reset the Request ID to handle the next request.
 		}
 		else if (result == ERROR_MORE_DATA)
 		{
@@ -309,9 +121,7 @@ DWORD DoReceiveRequests(
 			// Free the old buffer and allocate a new buffer.
 			//
 			RequestBufferLength = bytesRead;
-			FREE_MEM(pRequestBuffer);
-			pRequestBuffer = (PCHAR)ALLOC_MEM(RequestBufferLength);
-
+			allocBufferMem(RequestBufferLength);
 			if (pRequestBuffer == NULL)
 			{
 				result = ERROR_NOT_ENOUGH_MEMORY;
@@ -319,15 +129,12 @@ DWORD DoReceiveRequests(
 			}
 
 			pRequest = (PHTTP_REQUEST)pRequestBuffer;
-
 		}
-		else if (ERROR_CONNECTION_INVALID == result &&
-			!HTTP_IS_NULL_ID(&requestId))
+		else if (ERROR_CONNECTION_INVALID == result && !HTTP_IS_NULL_ID(&requestId))
 		{
 			// The TCP connection was corrupted by the peer when
 			// attempting to handle a request with more buffer. 
 			// Continue to the next request.
-
 			HTTP_SET_NULL_ID(&requestId);
 		}
 		else
@@ -336,54 +143,22 @@ DWORD DoReceiveRequests(
 		}
 
 	}
-
-	if (pRequestBuffer)
-	{
-		FREE_MEM(pRequestBuffer);
-	}
-
 	return result;
 }
-//Send an HTTP Response
-/*******************************************************************++
-
-Routine Description:
-The routine sends a HTTP response
-
-Arguments:
-hReqQueue     - Handle to the request queue
-pRequest      - The parsed HTTP request
-StatusCode    - Response Status Code
-pReason       - Response reason phrase
-pEntityString - Response entity body
-
-Return Value:
-Success/Failure.
---*******************************************************************/
-
-extern bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std::string& mimeTxt);
-// TODO: THIS IS the place to create response
-DWORD SendHttpResponse(
-	IN HANDLE        hReqQueue,
-	IN PHTTP_REQUEST pRequest,
-	IN USHORT        StatusCode,
-	IN PSTR          pReason,
-	IN PSTR          pEntityString
-	)
+DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT StatusCode, IN PSTR pReason, IN PSTR pEntityString)
 {
 	HTTP_RESPONSE   response;
 	HTTP_DATA_CHUNK dataChunk;
 	DWORD           result;
 	DWORD           bytesSent;
 
-	
-	BYTE* bytes=0;
+	BYTE* bytes = 0;	// TODO:!!!
 	ULONGLONG size = 0;
 	std::string mimeTxt;
 	bool bRes = getResponseStringAndMime(pRequest->pRawUrl, &bytes, &size, mimeTxt);
-	
-	
-	if (!bRes)
+
+
+	if (!bRes)	// if failed
 	{
 		INITIALIZE_HTTP_RESPONSE(&response, StatusCode, pReason);
 		//
@@ -397,24 +172,16 @@ DWORD SendHttpResponse(
 
 		if (pEntityString)
 		{
-			// 
 			// Add an entity chunk.
-			//
 			dataChunk.DataChunkType = HttpDataChunkFromMemory;
 			dataChunk.FromMemory.pBuffer = pEntityString;
 			dataChunk.FromMemory.BufferLength = 4;
-			//(ULONG)strlen(pEntityString);
-
 			response.EntityChunkCount = 1;
 			response.pEntityChunks = &dataChunk;
 		}
 
-
-		// 
 		// Because the entity body is sent in one call, it is not
 		// required to specify the Content-Length.
-		//
-
 		result = HttpSendHttpResponse(
 			hReqQueue,           // ReqQueueHandle
 			pRequest->RequestId, // Request ID
@@ -444,7 +211,7 @@ DWORD SendHttpResponse(
 	//
 	// Add a known header.
 	//
-	
+
 	//[1]
 	//CStringA strA(mimeTxt); // a helper string
 	//LPCSTR ptr = strA;
@@ -458,17 +225,15 @@ DWORD SendHttpResponse(
 		dataChunk.DataChunkType = HttpDataChunkFromMemory;
 		dataChunk.FromMemory.pBuffer = bytes;// pEntityString;
 		dataChunk.FromMemory.BufferLength = size;
-			//(ULONG)strlen(pEntityString);
+		//(ULONG)strlen(pEntityString);
 
 		response.EntityChunkCount = 1;
 		response.pEntityChunks = &dataChunk;
 	}
-	
 
-	// 
+
 	// Because the entity body is sent in one call, it is not
 	// required to specify the Content-Length.
-	//
 
 	result = HttpSendHttpResponse(
 		hReqQueue,           // ReqQueueHandle
@@ -491,318 +256,116 @@ DWORD SendHttpResponse(
 
 	return result;
 }
-//Send an HTTP POST Response
-#define MAX_ULONG_STR ((ULONG) sizeof("4294967295"))
-
-/*******************************************************************++
-
-Routine Description:
-The routine sends a HTTP response after reading the entity body.
-
-Arguments:
-hReqQueue     - Handle to the request queue.
-pRequest      - The parsed HTTP request.
-
-Return Value:
-Success/Failure.
---*******************************************************************/
-
-DWORD SendHttpPostResponse(
-	IN HANDLE        hReqQueue,
-	IN PHTTP_REQUEST pRequest
-	)
+UINT MSHttpAPIWrapper::MSHTTPServerThread(void* pThis_)
 {
-	HTTP_RESPONSE   response;
-	DWORD           result;
-	DWORD           bytesSent;
-	PUCHAR          pEntityBuffer;
-	ULONG           EntityBufferLength;
-	ULONG           BytesRead;
-	ULONG           TempFileBytesWritten;
-	HANDLE          hTempFile;
-	TCHAR           szTempName[MAX_PATH + 1];
-	CHAR            szContentLength[MAX_ULONG_STR];
-	HTTP_DATA_CHUNK dataChunk;
-	ULONG           TotalBytesRead = 0;
+	MSHttpAPIWrapper *pThis = (MSHttpAPIWrapper*)(pThis_);
+	std::vector<std::wstring> arrUrls;	arrUrls.push_back(L"http://localhost:5000/");
+	pThis->Init(arrUrls);
 
-	BytesRead = 0;
-	hTempFile = INVALID_HANDLE_VALUE;
+	pThis->DoReceiveRequests();	// server main loop
 
-	//
-	// Allocate space for an entity buffer. Buffer can be increased 
-	// on demand.
-	//
-	EntityBufferLength = 2048;
-	pEntityBuffer = (PUCHAR)ALLOC_MEM(EntityBufferLength);
-
-	if (pEntityBuffer == NULL)
+	return pThis->retCode;
+}
+void MSHttpAPIWrapper::stopMsHTTPServerThread()
+{
+	if (pHTTPServerThread)
 	{
-		result = ERROR_NOT_ENOUGH_MEMORY;
-		wprintf(L"Insufficient resources \n");
-		goto Done;
+		bStop = true;
+		Cleanup();
+		//::WaitForSingleObject(pHTTPServerThread->m_hThread, INFINITE);
+		//delete pHTTPServerThread;
 	}
-
-	//
-	// Initialize the HTTP response structure.
-	//
-	INITIALIZE_HTTP_RESPONSE(&response, 200, "OK");
-
-	//
-	// For POST, echo back the entity from the
-	// client
-	//
-	// NOTE: If the HTTP_RECEIVE_REQUEST_FLAG_COPY_BODY flag had been
-	//       passed with HttpReceiveHttpRequest(), the entity would 
-	//       have been a part of HTTP_REQUEST (using the pEntityChunks
-	//       field). Because that flag was not passed, there are no
-	//       o entity bodies in HTTP_REQUEST.
-	//
-
-	if (pRequest->Flags & HTTP_REQUEST_FLAG_MORE_ENTITY_BODY_EXISTS)
-	{
-		// The entity body is sent over multiple calls. Collect 
-		// these in a file and send back. Create a temporary 
-		// file.
-		//
-
-		if (GetTempFileName(
-			L".",
-			L"New",
-			0,
-			szTempName
-			) == 0)
-		{
-			result = GetLastError();
-			wprintf(L"GetTempFileName failed with %lu \n", result);
-			goto Done;
-		}
-
-		hTempFile = CreateFile(
-			szTempName,
-			GENERIC_READ | GENERIC_WRITE,
-			0,                  // Do not share.
-			NULL,               // No security descriptor.
-			CREATE_ALWAYS,      // Overrwrite existing.
-			FILE_ATTRIBUTE_NORMAL,    // Normal file.
-			NULL
-			);
-
-		if (hTempFile == INVALID_HANDLE_VALUE)
-		{
-			result = GetLastError();
-			wprintf(L"Cannot create temporary file. Error %lu \n",
-				result);
-			goto Done;
-		}
-
-		do
-		{
-			//
-			// Read the entity chunk from the request.
-			//
-			BytesRead = 0;
-			result = HttpReceiveRequestEntityBody(
-				hReqQueue,
-				pRequest->RequestId,
-				0,
-				pEntityBuffer,
-				EntityBufferLength,
-				&BytesRead,
-				NULL
-				);
-
-			switch (result)
-			{
-			case NO_ERROR:
-
-				if (BytesRead != 0)
-				{
-					TotalBytesRead += BytesRead;
-					WriteFile(
-						hTempFile,
-						pEntityBuffer,
-						BytesRead,
-						&TempFileBytesWritten,
-						NULL
-						);
-				}
-				break;
-
-			case ERROR_HANDLE_EOF:
-
-				//
-				// The last request entity body has been read.
-				// Send back a response. 
-				//
-				// To illustrate entity sends via 
-				// HttpSendResponseEntityBody, the response will 
-				// be sent over multiple calls. To do this,
-				// pass the HTTP_SEND_RESPONSE_FLAG_MORE_DATA
-				// flag.
-
-				if (BytesRead != 0)
-				{
-					TotalBytesRead += BytesRead;
-					WriteFile(
-						hTempFile,
-						pEntityBuffer,
-						BytesRead,
-						&TempFileBytesWritten,
-						NULL
-						);
-				}
-
-				//
-				// Because the response is sent over multiple
-				// API calls, add a content-length.
-				//
-				// Alternatively, the response could have been
-				// sent using chunked transfer encoding, by  
-				// passimg "Transfer-Encoding: Chunked".
-				//
-
-				// NOTE: Because the TotalBytesread in a ULONG
-				//       are accumulated, this will not work
-				//       for entity bodies larger than 4 GB. 
-				//       For support of large entity bodies,
-				//       use a ULONGLONG.
-				// 
-
-
-				sprintf_s(szContentLength, MAX_ULONG_STR, "%lu", TotalBytesRead);
-
-				ADD_KNOWN_HEADER(
-					response,
-					HttpHeaderContentLength,
-					szContentLength
-					);
-
-				result =
-					HttpSendHttpResponse(
-					hReqQueue,           // ReqQueueHandle
-					pRequest->RequestId, // Request ID
-					HTTP_SEND_RESPONSE_FLAG_MORE_DATA,
-					&response,       // HTTP response
-					NULL,            // pReserved1
-					&bytesSent,      // bytes sent-optional
-					NULL,            // pReserved2
-					0,               // Reserved3
-					NULL,            // LPOVERLAPPED
-					NULL             // pReserved4
-					);
-
-				if (result != NO_ERROR)
-				{
-					wprintf(
-						L"HttpSendHttpResponse failed with %lu \n",
-						result
-						);
-					goto Done;
-				}
-
-				//
-				// Send entity body from a file handle.
-				//
-				dataChunk.DataChunkType =
-					HttpDataChunkFromFileHandle;
-
-				dataChunk.FromFileHandle.
-					ByteRange.StartingOffset.QuadPart = 0;
-
-				dataChunk.FromFileHandle.
-					ByteRange.Length.QuadPart =
-					HTTP_BYTE_RANGE_TO_EOF;
-
-				dataChunk.FromFileHandle.FileHandle = hTempFile;
-
-				result = HttpSendResponseEntityBody(
-					hReqQueue,
-					pRequest->RequestId,
-					0,           // This is the last send.
-					1,           // Entity Chunk Count.
-					&dataChunk,
-					NULL,
-					NULL,
-					0,
-					NULL,
-					NULL
-					);
-
-				if (result != NO_ERROR)
-				{
-					wprintf(
-						L"HttpSendResponseEntityBody failed %lu\n",
-						result
-						);
-				}
-
-				goto Done;
-
-				break;
-
-
-			default:
-				wprintf(
-					L"HttpReceiveRequestEntityBody failed with %lu \n",
-					result);
-				goto Done;
-			}
-
-		} while (TRUE);
-	}
-	else
-	{
-		// This request does not have an entity body.
-		//
-
-		result = HttpSendHttpResponse(
-			hReqQueue,           // ReqQueueHandle
-			pRequest->RequestId, // Request ID
-			0,
-			&response,           // HTTP response
-			NULL,                // pReserved1
-			&bytesSent,          // bytes sent (optional)
-			NULL,                // pReserved2
-			0,                   // Reserved3
-			NULL,                // LPOVERLAPPED
-			NULL                 // pReserved4
-			);
-		if (result != NO_ERROR)
-		{
-			wprintf(L"HttpSendHttpResponse failed with %lu \n",
-				result);
-		}
-	}
-
-Done:
-
-	if (pEntityBuffer)
-	{
-		FREE_MEM(pEntityBuffer);
-	}
-
-	if (INVALID_HANDLE_VALUE != hTempFile)
-	{
-		CloseHandle(hTempFile);
-		DeleteFile(szTempName);
-	}
-
-	return result;
 }
 
-UINT Example1Thread(void*)
+MSHttpAPIWrapper::MSHttpAPIWrapper() :bHTTPInitialized(false), hReqQueue(nullptr), HttpApiVersion(HTTPAPI_VERSION_1), pRequestBuffer(0), pHTTPServerThread(0), bStop(false)
 {
-	wchar_t * argv[] = 
+}
+MSHttpAPIWrapper::~MSHttpAPIWrapper()
+{
+	stopMsHTTPServerThread();
+	Cleanup();
+}
+void MSHttpAPIWrapper::Init(std::vector<std::wstring>& rArrOfURLs)
+{
+	arrOfURLs = rArrOfURLs;
+
+	retCode = HttpInitialize(
+		HttpApiVersion,
+		HTTP_INITIALIZE_SERVER,    // Flags
+		NULL                       // Reserved
+		);
+
+	if (retCode != NO_ERROR)
 	{
-		L"",
-		L"http://localhost:5000/"
-	};
-	return _wmain_(2, argv);
+		wprintf(L"HttpInitialize failed with %lu \n", retCode);
+		return;
+	}
+	bHTTPInitialized = true;
+
+	// Create a Request Queue Handle
+	retCode = HttpCreateHttpHandle(&hReqQueue, 0                  // Reserved
+		);
+
+	if (retCode != NO_ERROR)
+	{
+		wprintf(L"HttpCreateHttpHandle failed with %lu \n", retCode);
+		Cleanup();
+		return;
+	}
+
+	// Register the URLs to Listen On
+	//
+	// The command line arguments represent URIs that to 
+	// listen on. Call HttpAddUrl for each URI.
+	//
+	// The URI is a fully qualified URI and must include the
+	// terminating (/) character.
+	//
+	for (int i = 0; i < arrOfURLs.size(); i++)
+	{
+		wprintf(L"listening for requests on the following url: %s\n", arrOfURLs[i]);
+
+		retCode = HttpAddUrl(hReqQueue, arrOfURLs[i].c_str(), NULL);
+
+		if (retCode != NO_ERROR)
+		{
+			wprintf(L"HttpAddUrl failed with %lu \n", retCode);
+			Cleanup();
+			return;
+		}
+	}
+	//
+	// Allocate a 2 KB buffer. This size should work for most 
+	// requests. The buffer size can be increased if required. Space
+	// is also required for an HTTP_REQUEST structure.
+	//
+	
+	RequestBufferLength = sizeof(HTTP_REQUEST) + 2048;
+	allocBufferMem(RequestBufferLength);
+
+	if (pRequestBuffer == NULL)
+	{
+		Cleanup();
+		return;
+
+	}
+}
+void MSHttpAPIWrapper::allocBufferMem(int iMemSize)
+{
+	freeBufferMem();
+	pRequestBuffer = (PCHAR)ALLOC_MEM(iMemSize);
+}
+void MSHttpAPIWrapper::freeBufferMem()
+{
+	if (pRequestBuffer)
+	{
+		FREE_MEM(pRequestBuffer);
+		pRequestBuffer = 0;
+	}
 }
 
-
-
-void startMsHTTPServerThread()
+void MSHttpAPIWrapper::startMsHTTPServerThread()
 {
-	AfxBeginThread(Example1Thread, 0);
+	pHTTPServerThread = AfxBeginThread(MSHttpAPIWrapper::MSHTTPServerThread, this);
+	pHTTPServerThread->m_bAutoDelete = true;
 }

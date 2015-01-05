@@ -465,8 +465,6 @@ CString getWebServerPath()
 }
 bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std::string& mimeTxt)
 {
-	
-
 	CString path = getWebServerPath();
 	CString filePath = path + rawURL;
 	CString pureURI(rawURL);
@@ -483,7 +481,7 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 			ULONGLONG dwLength = fp1.GetLength();
 			*pSize = dwLength;
 			// make room for whole file, plus null
-			BYTE *buffer = new BYTE[dwLength*2];
+			BYTE *buffer = new BYTE[dwLength*2];	//TODO: ????
 			memset(buffer, 0, dwLength);
 			fp1.Read(buffer, dwLength); // read whole file
 			*bytes = buffer;

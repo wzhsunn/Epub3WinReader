@@ -211,11 +211,7 @@ bool ReadiumJSApi::getByteResp(std::string sURI, BYTE** bytes, ULONGLONG* pSize)
 	if (!pkg) {
 		return false;
 	}
-//	CSingleLock lock(&g_cs, TRUE);
-	//QByteArray byteArr;
-	//sURI = sURI.mid(1);
-	//qDebug() << "Getting URI:" << sURI;
-		
+	
 	unique_ptr<ByteStream> stream = pkg->ReadStreamForRelativePath(sURI.substr(1));
 	if (stream)
 	{
