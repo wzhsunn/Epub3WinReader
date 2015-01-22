@@ -96,8 +96,7 @@ BOOL CSDKLauncherWinApp::InitInstance()
 
 	
 	httpServer.startMsHTTPServerThread();
-	
-	
+
 	CSDKLauncherWinDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();

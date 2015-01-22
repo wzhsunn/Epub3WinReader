@@ -99,7 +99,7 @@ cscript CopyResources.js</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Release\ePub3.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Debug\ePub3.lib;Advapi32.lib</AdditionalDependencies>
       <Profile>true</Profile>
     </Link>
     <Midl>
