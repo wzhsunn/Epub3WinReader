@@ -93,6 +93,7 @@ cscript CopyResources.js</Command>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\include;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\ePub3;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

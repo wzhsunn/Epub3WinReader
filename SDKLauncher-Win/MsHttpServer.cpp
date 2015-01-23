@@ -33,7 +33,7 @@ void MSHttpAPIWrapper::Cleanup()
 {
 	if (hReqQueue)
 	{
-		for (int i = 0; i < arrOfURLs.size(); i++)	// Call HttpRemoveUrl for all added URLs.
+		for (int i = 0; i < (int)arrOfURLs.size(); i++)	// Call HttpRemoveUrl for all added URLs.
 		{
 			HttpRemoveUrl(hReqQueue, arrOfURLs[i].c_str());
 		}
@@ -224,7 +224,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 		//
 		dataChunk.DataChunkType = HttpDataChunkFromMemory;
 		dataChunk.FromMemory.pBuffer = bytes;// pEntityString;
-		dataChunk.FromMemory.BufferLength = size;
+		dataChunk.FromMemory.BufferLength = (ULONG)size;
 		//(ULONG)strlen(pEntityString);
 
 		response.EntityChunkCount = 1;
@@ -321,7 +321,7 @@ void MSHttpAPIWrapper::Init(std::vector<std::wstring>& rArrOfURLs)
 	// The URI is a fully qualified URI and must include the
 	// terminating (/) character.
 	//
-	for (int i = 0; i < arrOfURLs.size(); i++)
+	for (int i = 0; i < (int)arrOfURLs.size(); i++)
 	{
 		wprintf(L"listening for requests on the following url: %s\n", arrOfURLs[i]);
 

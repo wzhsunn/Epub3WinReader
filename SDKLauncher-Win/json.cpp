@@ -557,10 +557,10 @@ static std::string UnescapeJSONString(const std::string& str)
 {
 	std::string s = "";
 	
-	for (int i = 0; i < str.length(); i++)
+	for (int i = 0; i < (int)str.length(); i++)
 	{
 		char c = str[i];
-		if ((c == '\\') && (i + 1 < str.length()))
+		if ((c == '\\') && (i + 1 < (int)str.length()))
 		{
 			int skip_ahead = 1;
 			unsigned int hex;

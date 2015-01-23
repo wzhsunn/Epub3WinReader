@@ -378,7 +378,7 @@ void CSDKLauncherWinDlg::OnFileOpenepub3file()
 }
 void CSDKLauncherWinDlg::digInto(TOCEntry& tocEntry, HTREEITEM hParent)
 {
-	for (int i = 0; i < tocEntry.arrChildren.size(); ++i)
+	for (int i = 0; i < (int)tocEntry.arrChildren.size(); ++i)
 	{
 		CString ss(tocEntry.arrChildren[i].sTOCName.c_str());
 		CString ss1(tocEntry.arrChildren[i].sURI.c_str());
@@ -481,9 +481,9 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 			ULONGLONG dwLength = fp1.GetLength();
 			*pSize = dwLength;
 			// make room for whole file, plus null
-			BYTE *buffer = new BYTE[dwLength*2];	//TODO: ????
-			memset(buffer, 0, dwLength);
-			fp1.Read(buffer, dwLength); // read whole file
+			BYTE *buffer = new BYTE[(unsigned int)dwLength*2];	// TODO:  This limits the buffer size to 4 GB (!)
+			memset(buffer, 0,(unsigned int) dwLength);
+			fp1.Read(buffer, (unsigned int)dwLength); // read whole file
 			*bytes = buffer;
 			//delete [] buffer;
 			fp1.Close();

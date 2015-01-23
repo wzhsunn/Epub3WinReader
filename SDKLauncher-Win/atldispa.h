@@ -35,6 +35,8 @@
 
 // Parameter types: by value VTs
 #define VTS_EMPTY           L"\x00"
+
+#ifndef VTS_I2
 #define VTS_I2              L"\x02"      // a 'short'
 #define VTS_I4              L"\x03"      // a 'long'
 #define VTS_R4              L"\x04"      // a 'float'
@@ -47,6 +49,7 @@
 #define VTS_BOOL            L"\x0B"      // a 'BOOL'
 #define VTS_VARIANT         L"\x0C"      // a 'VARIANT'
 #define VTS_UNKNOWN         L"\x0D"      // an 'IUnknown*'
+#endif
 
 // Parameter types: by reference VTs
 #define VTS_REF_I2          L"\x4002"    // a 'short*'
@@ -75,6 +78,11 @@ struct _ATL_DISPATCH_ENTRY
 	VARTYPE vtSingle;
 	void(__stdcall T::*pfn)();
 };
+
+// quiet warnigns
+#ifdef BEGIN_DISPATCH_MAP
+#undef BEGIN_DISPATCH_MAP
+#endif
 
 #define BEGIN_DISPATCH_MAP(theClass) \
 	static const _ATL_DISPATCH_ENTRY<theClass>* _GetDispMap()\
@@ -118,6 +126,11 @@ struct _ATL_DISPATCH_ENTRY
 
 #define DISP_PROPPUT(member, vt) \
 	DISP_PROPPUT_ID(member, DISPID_UNKNOWN, vt)
+
+// quiet warnigns
+#ifdef END_DISPATCH_MAP
+#undef END_DISPATCH_MAP
+#endif
 
 #define END_DISPATCH_MAP() {0}}; return _dispmap;}
 
