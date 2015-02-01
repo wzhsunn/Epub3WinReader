@@ -468,9 +468,10 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 	CString path = getWebServerPath();
 	CString filePath = path + rawURL;
 	CString pureURI(rawURL);
-	//AfxMessageBox(pureURI);
 	
 	mimeTxt = getMime(pureURI);
+
+	// TRACE("Filepath: %s\n", CT2A(filePath));
 
 	CFile  fp1;
 	CFileStatus status;
@@ -490,5 +491,8 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 			return true;
 		}
 	}
-	return g_cpp2ReadiumJS.getByteResp(std::string(CT2CA(pureURI)), bytes, pSize);;
+
+	// don't try to open trivial URLs.  The browser will sometimes request '/', which will cause the lower levels to try and 
+	// open it, which generates a range error.
+	return (CString::StringLength(pureURI) <= 1) ? false : g_cpp2ReadiumJS.getByteResp(std::string(CT2CA(pureURI)), bytes, pSize);
 }
