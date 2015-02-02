@@ -167,7 +167,9 @@ void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QF
 			//int contentLength = container->getArchiveInfoSize("titlepage.xhtml");
 
 			//OpenPageRequest req = OpenPageRequest::fromContentUrl("", "chapter_001.xhtml");//TODO:
+			// by requesting an empty URL we effectively request the first spine item, usually the title page
 			OpenPageRequest req = OpenPageRequest("", 0, "", "", "", "");
+
 			ViewerSettings set(true, 100, 20);
 			
 			DWORD openBookStartedMs = GetTickCount();

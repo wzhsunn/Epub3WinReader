@@ -32,7 +32,7 @@
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
 
-#define VISUAL_LEAK_DETECTOR 
+//#define VISUAL_LEAK_DETECTOR 
 #ifdef VISUAL_LEAK_DETECTOR
 #include "vld.h"
 #endif
