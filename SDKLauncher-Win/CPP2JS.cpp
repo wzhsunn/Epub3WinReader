@@ -26,6 +26,7 @@
 
 #include "stdafx.h"
 #include "CPP2JS.h"
+#include <ePub3/utilities/error_handler.h>
 
 PackagePtr pkg;	// TODO: move it into ReadiumJSApi class!!!
 //CCriticalSection g_cs;
@@ -133,10 +134,15 @@ std::string ReadiumJSApi::getBookTitle()
 	return "";
 }
 
+
+static bool m_ignoreRemainingErrors = false;
+
 void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.epub)"));
 {
 //	CSingleLock lock(&g_cs, TRUE);
 	
+	m_ignoreRemainingErrors = false;
+
 	try{
 		////qDebug() << fileName;
 		DWORD beginTimeMs = GetTickCount();
@@ -160,7 +166,8 @@ void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QF
 			}
 			//int contentLength = container->getArchiveInfoSize("titlepage.xhtml");
 
-			OpenPageRequest req = OpenPageRequest::fromContentUrl("", "chapter_001.xhtml");//TODO:
+			//OpenPageRequest req = OpenPageRequest::fromContentUrl("", "chapter_001.xhtml");//TODO:
+			OpenPageRequest req = OpenPageRequest("", 0, "", "", "", "");
 			ViewerSettings set(true, 100, 20);
 			
 			DWORD openBookStartedMs = GetTickCount();
@@ -212,7 +219,9 @@ bool ReadiumJSApi::getByteResp(std::string sURI, BYTE** bytes, ULONGLONG* pSize)
 		return false;
 	}
 	
-	unique_ptr<ByteStream> stream = pkg->ReadStreamForRelativePath(sURI.substr(1));
+std:string strr = sURI.substr(1);
+	if (strr.length() == 0) return false;
+	unique_ptr<ByteStream> stream = pkg->ReadStreamForRelativePath(strr);
 	if (stream)
 	{
 		ByteStream::size_type bytesAvailable = stream->BytesAvailable();
@@ -652,9 +661,65 @@ void ReadiumJSApi::loadJSOnReady(QString jScript)
 {
 	loadJS("$(document).ready(function () {" + jScript + "});");
 }
+
+bool LauncherErrorHandler(const ePub3::error_details& err)
+{
+	const char * msg = err.message();
+	wprintf(L"%s\n", msg);
+
+	if (err.is_spec_error())
+	{
+		switch (err.severity())
+		{
+		case ePub3::ViolationSeverity::Critical:
+		case ePub3::ViolationSeverity::Major: {
+
+			if (!m_ignoreRemainingErrors)
+			{
+				int len = strlen(msg) + 1;
+				wchar_t *w_msg = new wchar_t[len];
+				memset(w_msg, 0, len);
+				MultiByteToWideChar(CP_ACP, NULL, msg, -1, w_msg, len);
+
+				int msgboxID = MessageBox(
+					NULL,
+					(LPCWSTR)w_msg,
+					(LPCWSTR)L"EPUB warning",
+					MB_ICONWARNING | MB_OKCANCEL | MB_DEFBUTTON1
+					);
+
+				switch (msgboxID)
+				{
+				case IDCANCEL:
+					m_ignoreRemainingErrors = true;
+					break;
+				case IDOK:
+					break;
+				default:
+					break;
+				}
+			}
+
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	return true;
+	// never throws an exception
+	//return ePub3::DefaultErrorHandler(err);
+}
+
+
 void ReadiumJSApi::initReadiumSDK()
 {
 	//using namespace	ePub3;
+
+	ePub3::ErrorHandlerFn launcherErrorHandler = LauncherErrorHandler;
+	ePub3::SetErrorHandler(launcherErrorHandler);
+	
 	ePub3::InitializeSdk();
 	ePub3::PopulateFilterManager();
 }
