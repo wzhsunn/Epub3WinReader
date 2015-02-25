@@ -199,7 +199,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 		{
 			wprintf(L"HttpSendHttpResponse failed with %lu \n", result);
 		}
-		//delete[] bytes;
+		delete[] bytes;
 
 		return result;
 	}
@@ -252,7 +252,8 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 	{
 		wprintf(L"HttpSendHttpResponse failed with %lu \n", result);
 	}
-	delete[] bytes;
+	
+	delete [] bytes;
 
 	return result;
 }

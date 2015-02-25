@@ -31,24 +31,18 @@
 #include "SDKLauncher-WinDlg.h"
 #include "afxdialogex.h"
 
-#include "JS2CPP.h"
-#include "CPP2JS.h"
 
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-// Global Readium-shared-JS -> C++ object
-MyDocHostUIHandler	g_readiumJS2Cpp;
-
-// Global C++ object -> Readium-shared-JS
-ReadiumJSApi		g_cpp2ReadiumJS;
 
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
 {
+
 public:
 	CAboutDlg();
 
@@ -76,10 +70,13 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
+CSDKLauncherWinDlg* CSDKLauncherWinDlg::pThis = nullptr;
+
 // CSDKLauncherWinDlg dialog
 CSDKLauncherWinDlg::CSDKLauncherWinDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CSDKLauncherWinDlg::IDD, pParent)
 {
+	pThis = this;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	g_cpp2ReadiumJS.WebBrowser = &m_explorer;
 }
@@ -198,6 +195,7 @@ BOOL CSDKLauncherWinDlg::OnInitDialog()
 	g_cpp2ReadiumJS.initReadiumSDK();
 	m_explorer.Navigate(L"http://localhost:5000/reader.html", NULL, NULL, NULL, NULL);
 
+	_DEBUG_STATE::setMemCheckPoint();	// the memory state is stored here, to filter-out static memory leaks
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -482,7 +480,7 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 			ULONGLONG dwLength = fp1.GetLength();
 			*pSize = dwLength;
 			// make room for whole file, plus null
-			BYTE *buffer = new BYTE[(unsigned int)dwLength*2];	// TODO:  This limits the buffer size to 4 GB (!)
+			BYTE *buffer = new BYTE[(unsigned int)dwLength];	// TODO:  This limits the buffer size to 4 GB (!)
 			memset(buffer, 0,(unsigned int) dwLength);
 			fp1.Read(buffer, (unsigned int)dwLength); // read whole file
 			*bytes = buffer;
@@ -494,5 +492,5 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
 
 	// don't try to open trivial URLs.  The browser will sometimes request '/', which will cause the lower levels to try and 
 	// open it, which generates a range error.
-	return (CString::StringLength(pureURI) <= 1) ? false : g_cpp2ReadiumJS.getByteResp(std::string(CT2CA(pureURI)), bytes, pSize);
+	return (CString::StringLength(pureURI) <= 1) ? false : CSDKLauncherWinDlg::pThis->g_cpp2ReadiumJS.getByteResp(std::string(CT2CA(pureURI)), bytes, pSize);
 }

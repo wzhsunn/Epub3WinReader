@@ -357,7 +357,7 @@ struct TOCEntry
 
 class ReadiumJSApi
 {
-
+	PackagePtr pkg;	
 public:
 	bool getByteResp(std::string sURI, BYTE** bytes, ULONGLONG* pSize);
 	void initReadiumSDK();
@@ -374,6 +374,7 @@ public:
 	CExplorer *WebBrowser;
 	ReadiumJSApi(CExplorer*pWebBrowser_);
 	ReadiumJSApi();
+	~ReadiumJSApi()	{}
 
 	void bookmarkCurrentPage();
 	void openPageLeft();

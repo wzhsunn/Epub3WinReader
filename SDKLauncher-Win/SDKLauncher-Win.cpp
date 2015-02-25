@@ -93,8 +93,19 @@ BOOL CSDKLauncherWinApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-
 	
+#if 0	
+	{
+		ReadiumJSApi api;
+		api.initReadiumSDK();
+		_DEBUG_STATE::setMemCheckPoint();
+		api.on_actionOpen_ePub3("C:/Users/Den/Desktop/books/accessible_epub_3-20121024.epub");
+	}
+	_DEBUG_STATE::ds.reportLeaks();
+	
+	return FALSE;
+#endif
+
 	httpServer.startMsHTTPServerThread();
 
 	CSDKLauncherWinDlg dlg;
@@ -119,8 +130,11 @@ BOOL CSDKLauncherWinApp::InitInstance()
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
+
+	xmlCleanupParser();
 	return FALSE;
+
 }
 
-
-
+#pragma init_seg(compiler)
+_DEBUG_STATE _DEBUG_STATE::ds;

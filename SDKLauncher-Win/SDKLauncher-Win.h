@@ -61,3 +61,27 @@ public:
 };
 
 extern CSDKLauncherWinApp theApp;
+
+struct _DEBUG_STATE
+{
+	_CrtMemState state;
+
+	_DEBUG_STATE() {}
+	~_DEBUG_STATE()
+	{
+		reportLeaks();
+		TerminateProcess(::GetCurrentProcess(), 0);
+		//_CrtDumpMemoryLeaks(); 
+		//_CrtSetDbgFlag(0); 
+		//_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+	}
+	static _DEBUG_STATE ds;
+	static void setMemCheckPoint()
+	{
+		_CrtMemCheckpoint(&ds.state);
+	}
+	void reportLeaks()
+	{
+		_CrtMemDumpAllObjectsSince(&state);
+	}
+};

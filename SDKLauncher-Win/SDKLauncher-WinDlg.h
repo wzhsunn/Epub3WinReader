@@ -32,6 +32,8 @@
 #include "WndResizer.h"
 #include <map>
 
+#include "JS2CPP.h"
+#include "CPP2JS.h"
 
 // CSDKLauncherWinDlg dialog
 struct TOCEntry;
@@ -39,9 +41,21 @@ struct TOCEntry;
 #define READER_SCRIPTS_LOCATION   L"\\..\\Scripts"
 class CSDKLauncherWinDlg : public CDialogEx
 {
-// Construction
+public:	
+	// Global Readium-shared-JS -> C++ object
+	MyDocHostUIHandler	g_readiumJS2Cpp;
+	// Global C++ object -> Readium-shared-JS
+	ReadiumJSApi		g_cpp2ReadiumJS;
+
+	
+	// Construction
 public:
+	static CSDKLauncherWinDlg* pThis;
+
 	CSDKLauncherWinDlg(CWnd* pParent = NULL);	// standard constructor
+	virtual ~CSDKLauncherWinDlg()
+	{
+	}
 	
 	void SetWindowCaption();
 	void digInto(TOCEntry& tocEntry, HTREEITEM hParent);

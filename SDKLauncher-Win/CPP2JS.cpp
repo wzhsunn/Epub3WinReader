@@ -27,8 +27,8 @@
 #include "stdafx.h"
 #include "CPP2JS.h"
 #include <ePub3/utilities/error_handler.h>
+#include <ePub3/content_module_manager.h>
 
-PackagePtr pkg;	// TODO: move it into ReadiumJSApi class!!!
 //CCriticalSection g_cs;
 
 void ReadiumJSApi::digInto(const NavigationList& list, TOCEntry& rOut)
@@ -139,15 +139,13 @@ static bool m_ignoreRemainingErrors = false;
 
 void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*.epub)"));
 {
-//	CSingleLock lock(&g_cs, TRUE);
-	
 	m_ignoreRemainingErrors = false;
 
 	try{
-		////qDebug() << fileName;
 		DWORD beginTimeMs = GetTickCount();
 		ContainerPtr container = Container::OpenContainer(path);
 		DWORD containerOpened = GetTickCount();
+		
 		if (container)
 		{
 			pkg = container->DefaultPackage();
@@ -229,14 +227,12 @@ std:string strr = sURI.substr(1);
 		ByteStream::size_type bytesAvailable = stream->BytesAvailable();
 		if (bytesAvailable > 0)
 		{
-			char* buf = new char[bytesAvailable * 2];
-			//memset(buf, 0, bytesAvailable);
-
+			char* buf = new char[bytesAvailable];
+			memset(buf, 0, bytesAvailable);
 			stream->ReadBytes(buf, bytesAvailable);
 			*pSize = bytesAvailable;
 			*bytes = (BYTE*)buf;
 			return true;
-
 		}
 	}
 	return false;
@@ -724,6 +720,7 @@ void ReadiumJSApi::initReadiumSDK()
 	
 	ePub3::InitializeSdk();
 	ePub3::PopulateFilterManager();
+	//ePub3::ContentModuleManager::Instance();
 }
 ReadiumJSApi::ReadiumJSApi(CExplorer*pWebBrowser_):WebBrowser(pWebBrowser_), bMediaOverlayToggled(false)
 {
