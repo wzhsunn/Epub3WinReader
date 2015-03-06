@@ -51,20 +51,20 @@
 // Macros
 #define INITIALIZE_HTTP_RESPONSE( resp, status, reason )	\
 do															\
-	{                                                       \
-	RtlZeroMemory((resp), sizeof(*(resp)));					\
-	(resp)->StatusCode = (status);							\
-	(resp)->pReason = (reason);								\
-	(resp)->ReasonLength = (USHORT)strlen(reason);			\
-	} while (FALSE)
+    {                                                       \
+    RtlZeroMemory((resp), sizeof(*(resp)));					\
+    (resp)->StatusCode = (status);							\
+    (resp)->pReason = (reason);								\
+    (resp)->ReasonLength = (USHORT)strlen(reason);			\
+    } while (FALSE)
 #define ADD_KNOWN_HEADER(Response, HeaderId, RawValue)      \
 do                                                          \
-	{                                                       \
-	(Response).Headers.KnownHeaders[(HeaderId)].pRawValue = \
-	(RawValue);												\
-	(Response).Headers.KnownHeaders[(HeaderId)].RawValueLength = \
-	(USHORT)strlen(RawValue);                               \
-	} while (FALSE)
+    {                                                       \
+    (Response).Headers.KnownHeaders[(HeaderId)].pRawValue = \
+    (RawValue);												\
+    (Response).Headers.KnownHeaders[(HeaderId)].RawValueLength = \
+    (USHORT)strlen(RawValue);                               \
+    } while (FALSE)
 #define ALLOC_MEM(cb) HeapAlloc(GetProcessHeap(), 0, (cb))
 #define FREE_MEM(ptr) HeapFree(GetProcessHeap(), 0, (ptr))
 
@@ -74,29 +74,29 @@ extern bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSiz
 class MSHttpAPIWrapper
 {
 private:
-	std::vector<std::wstring> arrOfURLs;
+    std::vector<std::wstring> arrOfURLs;
 
-	ULONG			retCode;
-	bool			bHTTPInitialized;
-	HANDLE          hReqQueue;		// = NULL;
-	HTTPAPI_VERSION HttpApiVersion;	// = HTTPAPI_VERSION_1;
-	PCHAR           pRequestBuffer; // HTTP memory buffer
-	ULONG           RequestBufferLength; // HTTP memory buffer length
-	CWinThread		*pHTTPServerThread;
-	bool			bStop;
+    ULONG			retCode;
+    bool			bHTTPInitialized;
+    HANDLE          hReqQueue;		// = NULL;
+    HTTPAPI_VERSION HttpApiVersion;	// = HTTPAPI_VERSION_1;
+    PCHAR           pRequestBuffer; // HTTP memory buffer
+    ULONG           RequestBufferLength; // HTTP memory buffer length
+    CWinThread		*pHTTPServerThread;
+    bool			bStop;
 
 
-	void Cleanup();
-	ULONG DoReceiveRequests();
-	DWORD SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT StatusCode, IN PSTR pReason, IN PSTR pEntityString);
-	static UINT MSHTTPServerThread(void* pThis_);
-	void stopMsHTTPServerThread();
-	void allocBufferMem(int iMemSize);
-	void freeBufferMem();
+    void Cleanup();
+    ULONG DoReceiveRequests();
+    DWORD SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT StatusCode, IN PSTR pReason, IN PSTR pEntityString);
+    static UINT MSHTTPServerThread(void* pThis_);
+    void stopMsHTTPServerThread();
+    void allocBufferMem(int iMemSize);
+    void freeBufferMem();
 
 public:
-	MSHttpAPIWrapper();
-	~MSHttpAPIWrapper();
-	void Init(std::vector<std::wstring>& rArrOfURLs);
-	void startMsHTTPServerThread();
+    MSHttpAPIWrapper();
+    ~MSHttpAPIWrapper();
+    void Init(std::vector<std::wstring>& rArrOfURLs);
+    void startMsHTTPServerThread();
 };

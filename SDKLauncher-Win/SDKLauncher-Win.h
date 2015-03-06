@@ -29,7 +29,7 @@
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "include 'stdafx.h' before including this file for PCH"
+    #error "include 'stdafx.h' before including this file for PCH"
 #endif
 
 //#define VISUAL_LEAK_DETECTOR 
@@ -46,42 +46,42 @@
 #include "MsHttpServer.h"
 class CSDKLauncherWinApp : public CWinApp
 {
-	MSHttpAPIWrapper httpServer;
+    MSHttpAPIWrapper httpServer;
 public:
-	CSDKLauncherWinApp();
+    CSDKLauncherWinApp();
 
 // Overrides
 public:
-	virtual BOOL InitInstance();
+    virtual BOOL InitInstance();
 
 // Implementation
 
-	DECLARE_MESSAGE_MAP()
-	
+    DECLARE_MESSAGE_MAP()
+    
 };
 
 extern CSDKLauncherWinApp theApp;
 
 struct _DEBUG_STATE
 {
-	_CrtMemState state;
+    _CrtMemState state;
 
-	_DEBUG_STATE() {}
-	~_DEBUG_STATE()
-	{
-		reportLeaks();
-		TerminateProcess(::GetCurrentProcess(), 0);
-		//_CrtDumpMemoryLeaks(); 
-		//_CrtSetDbgFlag(0); 
-		//_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
-	}
-	static _DEBUG_STATE ds;
-	static void setMemCheckPoint()
-	{
-		_CrtMemCheckpoint(&ds.state);
-	}
-	void reportLeaks()
-	{
-		_CrtMemDumpAllObjectsSince(&state);
-	}
+    _DEBUG_STATE() {}
+    ~_DEBUG_STATE()
+    {
+        reportLeaks();
+        TerminateProcess(::GetCurrentProcess(), 0);
+        //_CrtDumpMemoryLeaks(); 
+        //_CrtSetDbgFlag(0); 
+        //_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+    }
+    static _DEBUG_STATE ds;
+    static void setMemCheckPoint()
+    {
+        _CrtMemCheckpoint(&ds.state);
+    }
+    void reportLeaks()
+    {
+        _CrtMemDumpAllObjectsSince(&state);
+    }
 };
