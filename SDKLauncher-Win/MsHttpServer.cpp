@@ -156,10 +156,12 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
     ULONGLONG size = 0;
     std::string mimeTxt;
     bool bRes = getResponseStringAndMime(pRequest->pRawUrl, &bytes, &size, mimeTxt);
-
-
+    
     if (!bRes)	// if failed
     {
+        StatusCode = 503;
+        pReason = "Error: Not implemented";
+
         INITIALIZE_HTTP_RESPONSE(&response, StatusCode, pReason);
         //
         // Add a known header.
