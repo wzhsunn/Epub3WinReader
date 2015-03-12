@@ -26,12 +26,11 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 //  THE POSSIBILITY OF SUCH DAMAGE.#include "stdafx.h"
 //
-
-
 #include "stdafx.h"
 #include "SDKLauncher-Win.h"
 #include "SDKLauncher-WinDlg.h"
 #include "MsHttpServer.h"
+#include <ePub3/initialization.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,7 +40,7 @@
 // CSDKLauncherWinApp
 
 BEGIN_MESSAGE_MAP(CSDKLauncherWinApp, CWinApp)
-	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+    ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
@@ -49,11 +48,11 @@ END_MESSAGE_MAP()
 
 CSDKLauncherWinApp::CSDKLauncherWinApp()
 {
-	// support Restart Manager
-	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
+    // support Restart Manager
+    m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
 
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 
@@ -66,61 +65,76 @@ CSDKLauncherWinApp theApp;
 
 BOOL CSDKLauncherWinApp::InitInstance()
 {
-	// InitCommonControlsEx() is required on Windows XP if an application
-	// manifest specifies use of ComCtl32.dll version 6 or later to enable
-	// visual styles.  Otherwise, any window creation will fail.
-	INITCOMMONCONTROLSEX InitCtrls;
-	InitCtrls.dwSize = sizeof(InitCtrls);
-	// Set this to include all the common control classes you want to use
-	// in your application.
-	InitCtrls.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&InitCtrls);
+    // InitCommonControlsEx() is required on Windows XP if an application
+    // manifest specifies use of ComCtl32.dll version 6 or later to enable
+    // visual styles.  Otherwise, any window creation will fail.
+    INITCOMMONCONTROLSEX InitCtrls;
+    InitCtrls.dwSize = sizeof(InitCtrls);
+    // Set this to include all the common control classes you want to use
+    // in your application.
+    InitCtrls.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&InitCtrls);
 
-	CWinApp::InitInstance();
+    CWinApp::InitInstance();
 
 
-	AfxEnableControlContainer();
+    AfxEnableControlContainer();
 
-	// Create the shell manager, in case the dialog contains
-	// any shell tree view or shell list view controls.
-	CShellManager *pShellManager = new CShellManager;
+    // Create the shell manager, in case the dialog contains
+    // any shell tree view or shell list view controls.
+    CShellManager *pShellManager = new CShellManager;
 
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	// of your final executable, you should remove from the following
-	// the specific initialization routines you do not need
-	// Change the registry key under which our settings are stored
-	// TODO: You should modify this string to be something appropriate
-	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+    // Standard initialization
+    // If you are not using these features and wish to reduce the size
+    // of your final executable, you should remove from the following
+    // the specific initialization routines you do not need
+    // Change the registry key under which our settings are stored
+    // TODO: You should modify this string to be something appropriate
+    // such as the name of your company or organization
+    SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+    
+#if 0
+    {
+        ReadiumJSApi api;
+        api.initReadiumSDK();
+        _DEBUG_STATE::setMemCheckPoint();
+        api.on_actionOpen_ePub3("C:/Users/Den/Desktop/books/accessible_epub_3-20121024.epub");
+        SDKInitializeAndRelease::Instance().Teardown();
+    }
+    _DEBUG_STATE::ds.reportLeaks();
+    
+    return FALSE;
+#endif
 
-	
-	httpServer.startMsHTTPServerThread();
+    httpServer.startMsHTTPServerThread();
 
-	CSDKLauncherWinDlg dlg;
-	m_pMainWnd = &dlg;
-	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
-	}
+    CSDKLauncherWinDlg dlg;
+    m_pMainWnd = &dlg;
+    INT_PTR nResponse = dlg.DoModal();
+    if (nResponse == IDOK)
+    {
+        // TODO: Place code here to handle when the dialog is
+        //  dismissed with OK
+    }
+    else if (nResponse == IDCANCEL)
+    {
+        // TODO: Place code here to handle when the dialog is
+        //  dismissed with Cancel
+    }
 
-	// Delete the shell manager created above.
-	if (pShellManager != NULL)
-	{
-		delete pShellManager;
-	}
+    // Delete the shell manager created above.
+    if (pShellManager != NULL)
+    {
+        delete pShellManager;
+    }
 
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
-	return FALSE;
+    // Since the dialog has been closed, return FALSE so that we exit the
+    //  application, rather than start the application's message pump.
+
+    SDKInitializeAndRelease::Instance().Teardown();
+    return FALSE;
+
 }
 
-
-
+#pragma init_seg(compiler)
+_DEBUG_STATE _DEBUG_STATE::ds;

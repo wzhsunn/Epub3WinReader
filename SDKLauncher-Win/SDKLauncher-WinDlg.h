@@ -32,6 +32,8 @@
 #include "WndResizer.h"
 #include <map>
 
+#include "JS2CPP.h"
+#include "CPP2JS.h"
 
 // CSDKLauncherWinDlg dialog
 struct TOCEntry;
@@ -39,47 +41,59 @@ struct TOCEntry;
 #define READER_SCRIPTS_LOCATION   L"\\..\\Scripts"
 class CSDKLauncherWinDlg : public CDialogEx
 {
-// Construction
+public:	
+    // Global Readium-shared-JS -> C++ object
+    MyDocHostUIHandler	g_readiumJS2Cpp;
+    // Global C++ object -> Readium-shared-JS
+    ReadiumJSApi		g_cpp2ReadiumJS;
+
+    
+    // Construction
 public:
-	CSDKLauncherWinDlg(CWnd* pParent = NULL);	// standard constructor
-	
-	void SetWindowCaption();
-	void digInto(TOCEntry& tocEntry, HTREEITEM hParent);
+    static CSDKLauncherWinDlg* pThis;
+
+    CSDKLauncherWinDlg(CWnd* pParent = NULL);	// standard constructor
+    virtual ~CSDKLauncherWinDlg()
+    {
+    }
+    
+    void SetWindowCaption();
+    void digInto(TOCEntry& tocEntry, HTREEITEM hParent);
 
 // Dialog Data
-	enum { IDD = IDD_SDKLAUNCHER_WIN_DIALOG };
+    enum { IDD = IDD_SDKLAUNCHER_WIN_DIALOG };
 
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+    protected:
+    virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
 private:
-	CWndResizer m_resizer;
-	
+    CWndResizer m_resizer;
+    
 
 // Implementation
 protected:
-	HICON m_hIcon;
+    HICON m_hIcon;
 
-	// Generated message map functions
-	virtual BOOL OnInitDialog();
-	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    virtual BOOL OnInitDialog();
+    afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+    afx_msg void OnPaint();
+    afx_msg HCURSOR OnQueryDragIcon();
+    DECLARE_MESSAGE_MAP()
 public:
-	// Trident Browser control
-	CExplorer m_explorer;
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnBnClickedButton4();
-	afx_msg void OnBnClickedButton5();
-	DECLARE_EVENTSINK_MAP()
-	void DownloadCompleteExplorer1();
-	afx_msg void OnFileOpenepub3file();
-	// TOC or Spine
-	CTreeCtrl m_tree;
-	std::map<HTREEITEM, CString> mapHTREEITEM2CString;
-	afx_msg void OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult);
+    // Trident Browser control
+    CExplorer m_explorer;
+    afx_msg void OnBnClickedButton1();
+    afx_msg void OnBnClickedOk();
+    afx_msg void OnBnClickedButton3();
+    afx_msg void OnBnClickedButton2();
+    afx_msg void OnBnClickedButton4();
+    afx_msg void OnBnClickedButton5();
+    DECLARE_EVENTSINK_MAP()
+    void DownloadCompleteExplorer1();
+    afx_msg void OnFileOpenepub3file();
+    // TOC or Spine
+    CTreeCtrl m_tree;
+    std::map<HTREEITEM, CString> mapHTREEITEM2CString;
+    afx_msg void OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult);
 };
