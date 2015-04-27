@@ -322,8 +322,8 @@ void CSDKLauncherWinDlg::SetWindowCaption()
 void CSDKLauncherWinDlg::OnFileOpenepub3file()
 {
     
-    CFileDialog fileDialog(1, NULL, L"*.epub");	//объект класса выбора файла
-    int result = fileDialog.DoModal();	//запустить диалоговое окно
+    CFileDialog fileDialog(1, NULL, L"*.epub");	//объект класса выбора файл?
+    int result = fileDialog.DoModal();	//запустит?диалоговое окно
     if (result == IDOK)	//если файл выбран
     {
         //AfxMessageBox(fileDialog.GetPathName()); // показать полный путь
