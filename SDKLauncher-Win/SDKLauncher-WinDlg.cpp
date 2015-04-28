@@ -322,11 +322,11 @@ void CSDKLauncherWinDlg::SetWindowCaption()
 void CSDKLauncherWinDlg::OnFileOpenepub3file()
 {
     
-    CFileDialog fileDialog(1, NULL, L"*.epub");	//объект класса выбора файл?
-    int result = fileDialog.DoModal();	//запустит?диалоговое окно
-    if (result == IDOK)	//если файл выбран
+    CFileDialog fileDialog(1, NULL, L"*.epub");	
+    int result = fileDialog.DoModal();	
+    if (result == IDOK)	
     {
-        //AfxMessageBox(fileDialog.GetPathName()); // показать полный путь
+        //AfxMessageBox(fileDialog.GetPathName());
         
         CT2CA pszConvertedAnsiString(fileDialog.GetPathName());
         std::string path(pszConvertedAnsiString);

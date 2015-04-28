@@ -150,6 +150,9 @@ cscript CopyResources.js</Command>
   <ItemGroup>
     <ResourceCompile Include="SDKLauncher-Win.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\SDKLauncher-Win.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
