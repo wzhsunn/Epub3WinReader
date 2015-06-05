@@ -36,6 +36,7 @@ void MSHttpAPIWrapper::Cleanup()
         for (int i = 0; i < (int)arrOfURLs.size(); i++)	// Call HttpRemoveUrl for all added URLs.
         {
             HttpRemoveUrl(hReqQueue, arrOfURLs[i].c_str());
+			TRACE("HttpRemoveUrl %s \n", arrOfURLs[i].c_str());
         }
         CloseHandle(hReqQueue);		// Close the Request Queue handle.
         hReqQueue = 0;
@@ -62,7 +63,6 @@ ULONG MSHttpAPIWrapper::DoReceiveRequests()
     for (; !bStop;)
     {
         RtlZeroMemory(pRequest, RequestBufferLength);
-
         result = HttpReceiveHttpRequest(
             hReqQueue,          // Req Queue
             requestId,          // Req ID
@@ -83,6 +83,7 @@ ULONG MSHttpAPIWrapper::DoReceiveRequests()
             {
             case HttpVerbGET:
                 wprintf(L"Got a GET request for %ws \n", pRequest->CookedUrl.pFullUrl);
+				TRACE(L"Got a GET request for %ws \n", pRequest->CookedUrl.pFullUrl);
                 result = SendHttpResponse(pRequest, 200, "OK", "Hey! You hit the server \r\n");
                 break;
 
@@ -156,7 +157,8 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
     ULONGLONG size = 0;
     std::string mimeTxt;
     bool bRes = getResponseStringAndMime(pRequest->pRawUrl, &bytes, &size, mimeTxt);
-    
+	TRACE("size=%d\n", size);
+
     if (!bRes)	// if failed
     {
         StatusCode = 503;
@@ -171,7 +173,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
         //CStringA strA(mimeTxt); // a helper string
         //LPCSTR ptr = strA;
         ADD_KNOWN_HEADER(response, HttpHeaderContentType, "text/html");
-
+		TRACE(pEntityString);
         if (pEntityString)
         {
             // Add an entity chunk.
@@ -217,8 +219,31 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
     //[1]
     //CStringA strA(mimeTxt); // a helper string
     //LPCSTR ptr = strA;
-    ADD_KNOWN_HEADER(response, HttpHeaderContentType, mimeTxt.c_str()/*ptr"text/html"*/);
+	ADD_KNOWN_HEADER(response, HttpHeaderContentType, mimeTxt.c_str()/*ptr"text/html"*/);
+	//inject mathmjax
+	{
+		std::string url = pRequest->pRawUrl;
+		TRACE(url.c_str());
+		//判断是否为html文件
+		if (url.length() > 4 && url.substr(url.length() - 4) == "html")
+		{
+			
+			std::string html(bytes, bytes + size);
 
+
+			int pos = html.find("</head>");
+			std::string injectMathJax = "<script type=\"text/javascript\" src=\"../mathjax/MathJax.js\"> </script>\n";
+			std::string htmlWithMath = html.substr(0, pos) + injectMathJax + html.substr(pos);
+			//TRACE(htmlWithMath.c_str());
+			
+			char* p = (char*)(htmlWithMath.c_str());
+			size = size + injectMathJax.length();
+			delete[] bytes;
+			bytes = new BYTE[size];
+			memcpy(bytes, p, size);
+			
+		}
+	}
     if (pEntityString)
     {
         // 
@@ -262,7 +287,8 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 UINT MSHttpAPIWrapper::MSHTTPServerThread(void* pThis_)
 {
     MSHttpAPIWrapper *pThis = (MSHttpAPIWrapper*)(pThis_);
-    std::vector<std::wstring> arrUrls;	arrUrls.push_back(L"http://localhost:5000/");
+    std::vector<std::wstring> arrUrls;	
+	arrUrls.push_back(L"http://localhost:5000/");
     pThis->Init(arrUrls);
 
     pThis->DoReceiveRequests();	// server main loop
@@ -327,7 +353,7 @@ void MSHttpAPIWrapper::Init(std::vector<std::wstring>& rArrOfURLs)
     for (int i = 0; i < (int)arrOfURLs.size(); i++)
     {
         wprintf(L"listening for requests on the following url: %s\n", arrOfURLs[i]);
-
+		TRACE(L"listening for requests on the following url: %s\n", arrOfURLs[i]);
         retCode = HttpAddUrl(hReqQueue, arrOfURLs[i].c_str(), NULL);
 
         if (retCode != NO_ERROR)

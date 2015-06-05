@@ -330,7 +330,7 @@ void CSDKLauncherWinDlg::OnFileOpenepub3file()
         
         CT2CA pszConvertedAnsiString(fileDialog.GetPathName());
         std::string path(pszConvertedAnsiString);
-        
+		TRACE(path.c_str());
         try{
         g_cpp2ReadiumJS.on_actionOpen_ePub3(path);
         }
@@ -365,7 +365,8 @@ void CSDKLauncherWinDlg::OnFileOpenepub3file()
 
         }*/
 
-        TOCEntry tocEntry;	g_cpp2ReadiumJS.getTOCList(tocEntry);
+        TOCEntry tocEntry;	
+		g_cpp2ReadiumJS.getTOCList(tocEntry);
         m_tree.DeleteAllItems();
         digInto(tocEntry, 0);
 

@@ -77,7 +77,6 @@ BOOL CSDKLauncherWinApp::InitInstance()
 
     CWinApp::InitInstance();
 
-
     AfxEnableControlContainer();
 
     // Create the shell manager, in case the dialog contains
@@ -98,7 +97,7 @@ BOOL CSDKLauncherWinApp::InitInstance()
         ReadiumJSApi api;
         api.initReadiumSDK();
         _DEBUG_STATE::setMemCheckPoint();
-        api.on_actionOpen_ePub3("C:/Users/Den/Desktop/books/accessible_epub_3-20121024.epub");
+        api.on_actionOpen_ePub3("G:\\HTML5\\data\\aliceDynamic.epub");
         SDKInitializeAndRelease::Instance().Teardown();
     }
     _DEBUG_STATE::ds.reportLeaks();
