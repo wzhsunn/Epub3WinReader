@@ -343,10 +343,8 @@ QJsonObject ReadiumJSApi::getPackageJSON(PackagePtr pckg)
                 //qDebug() << QString(manifestItem->BaseHref().c_str());
                 curItem["href"] = QString(manifestItem->BaseHref().c_str());	//[dict setObject : _href forKey : @"href"];
             }
-			else
-			{
-				curItem["href"] = QString("");
-			}
+            else
+                curItem["href"] = QString("");
 
 
             curItem["idref"] = QString(pSpineItem->Idref().c_str());	//[dict setObject : _idref forKey : @"idref"];

@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDKLauncher-Win", "SDKLaunc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ePub3", "readium-sdk\Platform\Windows\ReadiumSDK.vcxproj", "{033B6AAA-D741-4696-B687-F5BA0520436F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EPUB3Reader", "EPUB3Reader\EPUB3Reader.vcxproj", "{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -29,6 +31,12 @@ Global
 		{033B6AAA-D741-4696-B687-F5BA0520436F}.Debug2|Win32.Build.0 = Debug|Win32
 		{033B6AAA-D741-4696-B687-F5BA0520436F}.Release|Win32.ActiveCfg = Release|Win32
 		{033B6AAA-D741-4696-B687-F5BA0520436F}.Release|Win32.Build.0 = Release|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Debug|Win32.Build.0 = Debug|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Debug2|Win32.ActiveCfg = Debug|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Debug2|Win32.Build.0 = Debug|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Release|Win32.ActiveCfg = Release|Win32
+		{D0AC9569-5202-4B08-86A7-3C48B8CDBDB1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
