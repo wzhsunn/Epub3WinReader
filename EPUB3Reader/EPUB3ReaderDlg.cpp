@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CEPUB3ReaderDlg, CDialogEx)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_TOC, &CEPUB3ReaderDlg::OnTvnSelchangedTree1)
 	ON_BN_CLICKED(IDC_BUTTON_PRE, &CEPUB3ReaderDlg::OnBnClickedButtonPre)
 	ON_BN_CLICKED(IDC_BUTTON_NXT, &CEPUB3ReaderDlg::OnBnClickedButtonNxt)
+	ON_COMMAND(ID_32773, &CEPUB3ReaderDlg::On32773)
 END_MESSAGE_MAP()
 
 
@@ -108,10 +109,20 @@ BOOL CEPUB3ReaderDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
+
+	g_cpp2ReadiumJS.initReadiumSDK();
+
+	this->OnOpenEpub();
+
 	m_cefClient = new MyCefHandler();
 	CefWindowInfo info;
 	CRect	rc/*(0, 0, 800, 600)*/;
 	this->GetClientRect(rc);
+	CRect rcTree;
+	m_tree.GetClientRect(rcTree);
+	rc.SetRect(rcTree.right + 10, rc.top + 5, rc.right - 10, rc.bottom - 5);
+	rc.MoveToX(rcTree.right + 10);
+	
 	info.SetAsChild(m_hWnd, rc);
 	std::string strUIPath =
 		"http://localhost:5000/reader.html";
@@ -126,7 +137,8 @@ BOOL CEPUB3ReaderDlg::OnInitDialog()
 	g_cpp2ReadiumJS.m_handler = m_cefClient;
 
 	
-	g_cpp2ReadiumJS.initReadiumSDK();
+
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -395,4 +407,17 @@ void CEPUB3ReaderDlg::OnBnClickedButtonNxt()
 	// TODO: Add your control notification handler code here
 	g_cpp2ReadiumJS.turnMediaOverlayOff();
 	g_cpp2ReadiumJS.openPageRight();
+}
+
+
+void CEPUB3ReaderDlg::On32773()
+{
+	// TODO: Add your command handler code here
+	CefRefPtr<CefBrowser> browser;
+	if (m_cefClient.get())
+		browser = m_cefClient->GetBrowser();
+	if (browser)
+	{
+		browser->Reload();
+	}
 }

@@ -93,7 +93,7 @@ void MyCefHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> 
 {
 	//CEF_REQUIRE_UI_THREAD();
 	//base::AutoLock lock_scope(lock_);
-	AfxMessageBox(L"load end");
+	//AfxMessageBox(L"load end");
 }
 
 
