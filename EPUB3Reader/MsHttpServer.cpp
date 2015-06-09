@@ -221,6 +221,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
     //LPCSTR ptr = strA;
 	ADD_KNOWN_HEADER(response, HttpHeaderContentType, mimeTxt.c_str()/*ptr"text/html"*/);
 	//inject mathmjax
+#if 0
 	{
 		std::string url = pRequest->pRawUrl;
 		TRACE(url.c_str());
@@ -244,6 +245,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 			
 		}
 	}
+#endif
     if (pEntityString)
     {
         // 

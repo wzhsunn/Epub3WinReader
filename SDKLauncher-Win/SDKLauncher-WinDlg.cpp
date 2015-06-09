@@ -274,6 +274,7 @@ void CSDKLauncherWinDlg::OnBnClickedButton5()
     g_cpp2ReadiumJS.turnMediaOverlayOff();
     g_cpp2ReadiumJS.openPageRight();
 }
+
 void CSDKLauncherWinDlg::OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult)
 {
     LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -470,7 +471,7 @@ bool getResponseStringAndMime(PCSTR rawURL, BYTE** bytes, ULONGLONG* pSize, std:
     
     mimeTxt = getMime(pureURI);
 
-    // TRACE("Filepath: %s\n", CT2A(filePath));
+     TRACE("Filepath: %s\n", CT2A(filePath));
 
     CFile  fp1;
     CFileStatus status;

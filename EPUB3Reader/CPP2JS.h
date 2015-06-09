@@ -49,6 +49,8 @@ using namespace ePub3;
 
 #include "json.h"
 
+#include "MyCefHandler.h"
+
 #else
 struct PackagePtr{};
 #endif
@@ -372,7 +374,9 @@ public:
 
 public:
     CExplorer *WebBrowser;
-    ReadiumJSApi(CExplorer*pWebBrowser_);
+	CefRefPtr<MyCefHandler> m_handler;
+	ReadiumJSApi(CExplorer*pWebBrowser_);
+	ReadiumJSApi(CefRefPtr<MyCefHandler> handler);
     ReadiumJSApi();
     ~ReadiumJSApi()	{}
 

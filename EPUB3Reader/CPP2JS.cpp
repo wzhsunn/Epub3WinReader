@@ -28,6 +28,7 @@
 #include "CPP2JS.h"
 #include <ePub3/utilities/error_handler.h>
 #include <ePub3/content_module_manager.h>
+#include "util.h"
 
 //CCriticalSection g_cs;
 
@@ -601,29 +602,55 @@ void ReadiumJSApi::loadJS(QString jScript)
         //qDebug() << "COULD NOT GET DOCUMENT OBJECT! Aborting";
     }
 #else
-    if (WebBrowser)
-    {
-        CComPtr<IDispatch> pDispDoc = WebBrowser->get_Document();
-        CComQIPtr<IHTMLDocument2> pHtmlDoc(pDispDoc);
-        if (pHtmlDoc)
-        {
-            CComPtr<IHTMLWindow2>    pMainWin2;
-            pHtmlDoc->get_parentWindow(&pMainWin2);
+    //if (WebBrowser)
+    //{
+    //    CComPtr<IDispatch> pDispDoc = WebBrowser->get_Document();
+    //    CComQIPtr<IHTMLDocument2> pHtmlDoc(pDispDoc);
+    //    if (pHtmlDoc)
+    //    {
+    //        CComPtr<IHTMLWindow2>    pMainWin2;
+    //        pHtmlDoc->get_parentWindow(&pMainWin2);
 
-            if (pMainWin2)
-            {
-                CComVariant    vtRv(0);
-                CComBSTR bsCode = jScript.c_str() /*L"alert (\" Hi !\");"*/, bsLang = L"JavaScript";
-                HRESULT hr = pMainWin2->execScript(bsCode, bsLang, &vtRv);
+    //        if (pMainWin2)
+    //        {
+    //            CComVariant    vtRv(0);
+    //            CComBSTR bsCode = jScript.c_str() /*L"alert (\" Hi !\");"*/, bsLang = L"JavaScript";
+    //            HRESULT hr = pMainWin2->execScript(bsCode, bsLang, &vtRv);
 
-                if (!SUCCEEDED(hr))
-                {
-                    //AfxMessageBox(L"Error executing script");
-                }
-            }
-        }
-    }
+    //            if (!SUCCEEDED(hr))
+    //            {
+    //                //AfxMessageBox(L"Error executing script");
+    //            }
+    //        }
+    //    }
+    //}
 
+	if (m_handler.get())
+	{
+		CefRefPtr<CefBrowser> browser = m_handler->GetBrowser();
+		if (browser)
+		{
+			CefRefPtr<CefFrame> frame = browser->GetMainFrame();
+			if (frame)
+			{
+				std::wstring	wstrJS;
+				CString		strJS;
+
+				//GetDlgItemText(IDC_EDIT_JS, strJS);
+				// document.querySelector("#sb_form_q").value="C++";
+				wstrJS = Ansi2Wide(jScript.c_str());
+
+				//CefString cefstrJs("document.write(Date());");
+				CefString cefstrJs;
+				cefstrJs.FromWString(wstrJS);
+				// wchar Ã»ÓÐÂÒÂë
+				frame->ExecuteJavaScript(
+					cefstrJs,
+					frame->GetURL(),
+					0);
+			}
+		}
+	}
 
     //QAxObject* qv = WebBrowser->querySubObject("Document()");
     //QAxObject* qv1 = qv->querySubObject("parentWindow");

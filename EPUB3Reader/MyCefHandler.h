@@ -6,7 +6,8 @@
 class MyCefHandler :
 	public CefClient,
 	public CefLifeSpanHandler,
-	public CefLoadHandler
+	public CefLoadHandler,
+	public CefContextMenuHandler
 {
 
 public:
@@ -18,6 +19,24 @@ public:
 	static MyCefHandler* GetInstance();
 
 	CefRefPtr<CefBrowser> GetBrowser();
+	virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() OVERRIDE{
+		return this;
+	}
+	// CefContextMenuHandler methods
+	virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefContextMenuParams> params,
+	CefRefPtr<CefMenuModel> model) OVERRIDE;
+	virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefContextMenuParams> params,
+	int command_id,
+	EventFlags event_flags) OVERRIDE;
+
+	void ShowDevTools(CefRefPtr<CefBrowser> browser,
+		const CefPoint& inspect_element_at);
+	void CloseDevTools(CefRefPtr<CefBrowser> browser);
+
 #pragma region CefClient  
 	// since we are letting the base implementations handle all of the heavy lifting,  
 	// these functions just return the this pointer  

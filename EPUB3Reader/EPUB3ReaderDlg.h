@@ -47,12 +47,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	CExplorer m_explorer;
+	//CExplorer m_explorer;
 	CefRefPtr<MyCefHandler>		m_cefClient;
 
 	CTreeCtrl m_tree;
 	std::map<HTREEITEM, CString> mapHTREEITEM2CString;
-
+	afx_msg void OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult);
 public:
 	afx_msg void OnOpenEpub();
+	afx_msg void OnBnClickedButtonPre();
+	afx_msg void OnBnClickedButtonNxt();
 };

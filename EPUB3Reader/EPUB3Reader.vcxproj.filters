@@ -60,6 +60,9 @@
     <ClInclude Include="MyCefApp.h">
       <Filter>cef</Filter>
     </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EPUB3Reader.cpp">
@@ -91,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="MyCefApp.cpp">
       <Filter>cef</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

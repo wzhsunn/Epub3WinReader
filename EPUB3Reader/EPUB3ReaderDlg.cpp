@@ -54,13 +54,13 @@ CEPUB3ReaderDlg::CEPUB3ReaderDlg(CWnd* pParent /*=NULL*/)
 {
 	pThis = this;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	g_cpp2ReadiumJS.WebBrowser = &m_explorer;
+	//g_cpp2ReadiumJS.WebBrowser = &m_explorer;
 }
 
 void CEPUB3ReaderDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_EXPLORER1, m_explorer);
+	//DDX_Control(pDX, IDC_EXPLORER1, m_explorer);
 	DDX_Control(pDX, IDC_TREE_TOC, m_tree);
 }
 
@@ -69,6 +69,9 @@ BEGIN_MESSAGE_MAP(CEPUB3ReaderDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_COMMAND(ID_OPEN_EPUB, &CEPUB3ReaderDlg::OnOpenEpub)
+	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_TOC, &CEPUB3ReaderDlg::OnTvnSelchangedTree1)
+	ON_BN_CLICKED(IDC_BUTTON_PRE, &CEPUB3ReaderDlg::OnBnClickedButtonPre)
+	ON_BN_CLICKED(IDC_BUTTON_NXT, &CEPUB3ReaderDlg::OnBnClickedButtonNxt)
 END_MESSAGE_MAP()
 
 
@@ -105,21 +108,24 @@ BOOL CEPUB3ReaderDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
-	//m_cefClient = new MyCefHandler();
-	//CefWindowInfo info;
-	//CRect	rc/*(0, 0, 800, 600)*/;
-	//this->GetClientRect(rc);
-	//info.SetAsChild(m_hWnd, rc);
-	//std::string strUIPath =
-	//	"http://www.baidu.com";
-	//BOOL bRet = CefBrowserHost::CreateBrowser(
-	//	info,
-	//	static_cast<CefRefPtr<CefClient>>(m_cefClient),
-	//	strUIPath,
-	//	CefBrowserSettings(),
-	//	NULL
-	//	);
+	m_cefClient = new MyCefHandler();
+	CefWindowInfo info;
+	CRect	rc/*(0, 0, 800, 600)*/;
+	this->GetClientRect(rc);
+	info.SetAsChild(m_hWnd, rc);
+	std::string strUIPath =
+		"http://localhost:5000/reader.html";
+	BOOL bRet = CefBrowserHost::CreateBrowser(
+		info,
+		static_cast<CefRefPtr<CefClient>>(m_cefClient),
+		strUIPath,
+		CefBrowserSettings(),
+		NULL
+		);
 
+	g_cpp2ReadiumJS.m_handler = m_cefClient;
+
+	
 	g_cpp2ReadiumJS.initReadiumSDK();
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -359,4 +365,34 @@ void CEPUB3ReaderDlg::OnOpenEpub()
 		HTREEITEM item = m_tree.GetFirstVisibleItem();
 		m_tree.SelectItem(item);
 	}
+}
+
+void CEPUB3ReaderDlg::OnTvnSelchangedTree1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	//CString s = m_tree.GetItemText(pNMTreeView->itemNew.hItem);
+	HTREEITEM item = pNMTreeView->itemNew.hItem;
+	CString s = mapHTREEITEM2CString[item];
+	g_cpp2ReadiumJS.turnMediaOverlayOff();
+	g_cpp2ReadiumJS.openContentUrl(std::string(CT2CA(s)), "");
+	//AfxMessageBox(s);
+	//g_cpp2ReadiumJS.openContentUrl("ai2d_d1e1002", "content1.xhtml");
+	//g_cpp2ReadiumJS.openContentUrl("chapter_003.xhtml", "");
+	//g_cpp2ReadiumJS.openContentUrl("file01.xhtml", "toch_0004");
+	*pResult = 0;
+}
+
+void CEPUB3ReaderDlg::OnBnClickedButtonPre()
+{
+	// TODO: Add your control notification handler code here
+	g_cpp2ReadiumJS.turnMediaOverlayOff();
+	g_cpp2ReadiumJS.openPageLeft();
+}
+
+
+void CEPUB3ReaderDlg::OnBnClickedButtonNxt()
+{
+	// TODO: Add your control notification handler code here
+	g_cpp2ReadiumJS.turnMediaOverlayOff();
+	g_cpp2ReadiumJS.openPageRight();
 }
