@@ -144,6 +144,46 @@
     <ResourceCompile Include="EPUB3Reader.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\readium-shared-js\js\readium_sdk.js" />
+    <None Include="..\Scripts\epubReadingSystem.epub" />
+    <None Include="..\Scripts\epubReadingSystem.js" />
+    <None Include="..\Scripts\epubReadingSystem.sh" />
+    <None Include="..\Scripts\helpers.js" />
+    <None Include="..\Scripts\host_app_feedback.js" />
+    <None Include="..\Scripts\js\models\bookmark_data.js" />
+    <None Include="..\Scripts\js\models\current_pages_info.js" />
+    <None Include="..\Scripts\js\models\fixed_page_spread.js" />
+    <None Include="..\Scripts\js\models\media_overlay.js" />
+    <None Include="..\Scripts\js\models\package.js" />
+    <None Include="..\Scripts\js\models\package_data.js" />
+    <None Include="..\Scripts\js\models\page_open_request.js" />
+    <None Include="..\Scripts\js\models\smil_iterator.js" />
+    <None Include="..\Scripts\js\models\smil_model.js" />
+    <None Include="..\Scripts\js\models\spine.js" />
+    <None Include="..\Scripts\js\models\spine_item.js" />
+    <None Include="..\Scripts\js\models\style.js" />
+    <None Include="..\Scripts\js\models\style_collection.js" />
+    <None Include="..\Scripts\js\models\switches.js" />
+    <None Include="..\Scripts\js\models\trigger.js" />
+    <None Include="..\Scripts\js\models\viewer_settings.js" />
+    <None Include="..\Scripts\js\views\annotations_manager.js" />
+    <None Include="..\Scripts\js\views\audio_player.js" />
+    <None Include="..\Scripts\js\views\cfi_navigation_logic.js" />
+    <None Include="..\Scripts\js\views\fixed_view.js" />
+    <None Include="..\Scripts\js\views\iframe_loader.js" />
+    <None Include="..\Scripts\js\views\internal_links_support.js" />
+    <None Include="..\Scripts\js\views\media_overlay_data_injector.js" />
+    <None Include="..\Scripts\js\views\media_overlay_element_highlighter.js" />
+    <None Include="..\Scripts\js\views\media_overlay_player.js" />
+    <None Include="..\Scripts\js\views\one_page_view.js" />
+    <None Include="..\Scripts\js\views\reader_view.js" />
+    <None Include="..\Scripts\js\views\reflowable_view.js" />
+    <None Include="..\Scripts\js\views\scroll_view.js" />
+    <None Include="..\Scripts\reader.html" />
+    <None Include="..\Scripts\readium_Annotations.css" />
+    <None Include="..\Scripts\readium_sdk.js" />
+    <None Include="ReaderScripts\epubReadingSystem.js" />
+    <None Include="ReaderScripts\reader.html" />
     <None Include="res\EPUB3Reader.rc2" />
   </ItemGroup>
   <ItemGroup>

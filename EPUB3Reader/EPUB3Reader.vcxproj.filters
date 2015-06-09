@@ -16,6 +16,18 @@
     <Filter Include="cef">
       <UniqueIdentifier>{55d4b0e9-5105-4b6b-9d48-ded0ffdeca34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{170140a3-9859-4dc6-a51f-7b5f080175c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\js">
+      <UniqueIdentifier>{1499049f-0c64-4064-a997-ccfe8b6e2851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\js\views">
+      <UniqueIdentifier>{5872f1df-cd4c-444b-8d51-b4e3d6e27dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script\js\models">
+      <UniqueIdentifier>{1e03df36-4a35-4f45-ac6c-3e6ff3782d11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -107,6 +119,120 @@
   <ItemGroup>
     <None Include="res\EPUB3Reader.rc2">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ReaderScripts\reader.html" />
+    <None Include="ReaderScripts\epubReadingSystem.js" />
+    <None Include="..\readium-shared-js\js\readium_sdk.js" />
+    <None Include="..\Scripts\epubReadingSystem.epub">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\epubReadingSystem.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\epubReadingSystem.sh">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\helpers.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\host_app_feedback.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\reader.html">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\readium_Annotations.css">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\readium_sdk.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\bookmark_data.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\current_pages_info.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\fixed_page_spread.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\media_overlay.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\package.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\package_data.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\page_open_request.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\smil_iterator.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\smil_model.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\spine.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\spine_item.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\style.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\style_collection.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\switches.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\trigger.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\models\viewer_settings.js">
+      <Filter>Script\js\models</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\annotations_manager.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\audio_player.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\cfi_navigation_logic.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\fixed_view.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\iframe_loader.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\internal_links_support.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\media_overlay_data_injector.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\media_overlay_element_highlighter.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\media_overlay_player.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\one_page_view.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\reader_view.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\reflowable_view.js">
+      <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\js\views\scroll_view.js">
+      <Filter>Script\js\views</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
