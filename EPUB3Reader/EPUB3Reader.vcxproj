@@ -87,12 +87,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\readium-sdk\Platform\Windows\include;..\readium-sdk\Platform\Windows\ePub3;..\readium-sdk\Platform\Windows\Prebuilt\Include;G:\webkit\chromium\cef\2171_2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>G:\webkit\chromium\cef\2171_2\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\libxml2_a.lib;$(MSBuildProjectDirectory)\..\readium-sdk\Platform\Windows\Prebuilt\Lib\x86\zlib.lib;..\Release\ePub3.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

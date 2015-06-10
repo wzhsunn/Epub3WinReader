@@ -123,30 +123,6 @@
     <None Include="ReaderScripts\reader.html" />
     <None Include="ReaderScripts\epubReadingSystem.js" />
     <None Include="..\readium-shared-js\js\readium_sdk.js" />
-    <None Include="..\Scripts\epubReadingSystem.epub">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\epubReadingSystem.js">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\epubReadingSystem.sh">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\helpers.js">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\host_app_feedback.js">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\reader.html">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\readium_Annotations.css">
-      <Filter>Script</Filter>
-    </None>
-    <None Include="..\Scripts\readium_sdk.js">
-      <Filter>Script</Filter>
-    </None>
     <None Include="..\Scripts\js\models\bookmark_data.js">
       <Filter>Script\js\models</Filter>
     </None>
@@ -233,6 +209,30 @@
     </None>
     <None Include="..\Scripts\js\views\scroll_view.js">
       <Filter>Script\js\views</Filter>
+    </None>
+    <None Include="..\Scripts\epubReadingSystem.epub">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\epubReadingSystem.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\epubReadingSystem.sh">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\helpers.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\host_app_feedback.js">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\reader.html">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\readium_Annotations.css">
+      <Filter>Script</Filter>
+    </None>
+    <None Include="..\Scripts\readium_sdk.js">
+      <Filter>Script</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -178,16 +178,16 @@ void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QF
             //char buf[1024];wsprintf((LPWSTR)buf, L"TotalTime:%d ms\n Container::OpenContainer:%d  ms\nopenBook:%d  ms\n", (EndTimeTimeMs - beginTimeMs), (openBookStartedMs - beginTimeMs), (EndTimeTimeMs - containerOpened));
             //AfxMessageBox((LPCTSTR)buf);
             
-            //BYTE* bytes = 0;
-            //ULONGLONG pSize = 0;
-            //getByteResp("/chapter_001.xhtml", &bytes, &pSize);
-            //delete[]bytes;
+			/* BYTE* bytes = 0;
+			 ULONGLONG pSize = 0;
+			 getByteResp("/chapter01.xhtml", &bytes, &pSize);
+			 delete[]bytes;*/
             //getByteResp("/chapter_002.xhtml", &bytes, &pSize);
             //delete[]bytes;
             //getByteResp("/chapter_003.xhtml", &bytes, &pSize);
 
-            //openContentUrl("chapter_001.xhtml", "");
-            
+            //openContentUrl("chapter01.xhtml", "");
+			//loadJSOnReady("MyTest();");
             //ReadiumJsApi.openContentUrl((*list.begin())->Title().c_str(), "");
             //unique_ptr<ePub3::ByteStream> byteStream = pkg->ReadStreamForItemAtPath("titlepage.xhtml");
 
@@ -220,7 +220,7 @@ bool ReadiumJSApi::getByteResp(std::string sURI, BYTE** bytes, ULONGLONG* pSize)
         return false;
     }
     
-std:string strr = sURI.substr(1);
+	std:string strr = sURI.substr(1);
     if (strr.length() == 0) return false;
     unique_ptr<ByteStream> stream = pkg->ReadStreamForRelativePath(strr);
     if (stream)
@@ -640,7 +640,7 @@ void ReadiumJSApi::loadJS(QString jScript)
 				// document.querySelector("#sb_form_q").value="C++";
 				wstrJS = Ansi2Wide(jScript.c_str());
 
-				//CefString cefstrJs("document.write(Date());");
+				//CefString cefstrJs("MyTest();");
 				CefString cefstrJs;
 				cefstrJs.FromWString(wstrJS);
 				// wchar Ã»ÓÐÂÒÂë
@@ -684,7 +684,8 @@ void ReadiumJSApi::loadJS(QString jScript)
 }
 void ReadiumJSApi::loadJSOnReady(QString jScript)
 {
-    loadJS("$(document).ready(function () {" + jScript + "});");
+	//loadJS(jScript );
+	loadJS("$(document).ready(function () {" + jScript + "});");
 }
 
 bool LauncherErrorHandler(const ePub3::error_details& err)

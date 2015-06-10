@@ -8,7 +8,7 @@
 #ifdef _DEBUG
 #define CEF_LIB_SUBDIR "..\\Debug\\"
 #else
-#define CEF_LIB_SUBDIR "Release\\"
+#define CEF_LIB_SUBDIR "..\\Release\\"
 #endif
 
 #pragma comment(lib, CEF_LIB_DIR CEF_LIB_SUBDIR "libcef_dll_wrapper.lib")

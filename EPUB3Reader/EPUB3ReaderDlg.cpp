@@ -112,7 +112,7 @@ BOOL CEPUB3ReaderDlg::OnInitDialog()
 
 	g_cpp2ReadiumJS.initReadiumSDK();
 
-	this->OnOpenEpub();
+	//this->OnOpenEpub();
 
 	m_cefClient = new MyCefHandler();
 	CefWindowInfo info;
@@ -326,14 +326,14 @@ void CEPUB3ReaderDlg::OnOpenEpub()
 	// TODO: Add your command handler code here
 
 	CFileDialog fileDialog(TRUE, NULL, L"*.epub");
-	//int result = fileDialog.DoModal();
-	if (TRUE)
+	int result = fileDialog.DoModal();
+	if (result == IDOK)
 	{
 		//AfxMessageBox(fileDialog.GetPathName());
 
-		//CT2CA pszConvertedAnsiString(fileDialog.GetPathName());
-		//std::string path(pszConvertedAnsiString);
-		std::string path(EPUB_PATH);
+		CT2CA pszConvertedAnsiString(fileDialog.GetPathName());
+		std::string path(pszConvertedAnsiString);
+		//std::string path(EPUB_PATH);
 		TRACE(path.c_str());
 		try{
 			g_cpp2ReadiumJS.on_actionOpen_ePub3(path);
