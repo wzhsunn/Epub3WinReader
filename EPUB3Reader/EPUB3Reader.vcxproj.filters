@@ -120,9 +120,6 @@
     <None Include="res\EPUB3Reader.rc2">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ReaderScripts\reader.html" />
-    <None Include="ReaderScripts\epubReadingSystem.js" />
-    <None Include="..\readium-shared-js\js\readium_sdk.js" />
     <None Include="..\Scripts\js\models\bookmark_data.js">
       <Filter>Script\js\models</Filter>
     </None>

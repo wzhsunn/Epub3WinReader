@@ -147,7 +147,6 @@
     <ResourceCompile Include="EPUB3Reader.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\readium-shared-js\js\readium_sdk.js" />
     <None Include="..\Scripts\epubReadingSystem.epub" />
     <None Include="..\Scripts\epubReadingSystem.js" />
     <None Include="..\Scripts\epubReadingSystem.sh" />
@@ -185,8 +184,6 @@
     <None Include="..\Scripts\reader.html" />
     <None Include="..\Scripts\readium_Annotations.css" />
     <None Include="..\Scripts\readium_sdk.js" />
-    <None Include="ReaderScripts\epubReadingSystem.js" />
-    <None Include="ReaderScripts\reader.html" />
     <None Include="res\EPUB3Reader.rc2" />
   </ItemGroup>
   <ItemGroup>
