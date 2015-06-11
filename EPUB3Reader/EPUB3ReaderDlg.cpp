@@ -7,6 +7,7 @@
 #include "EPUB3ReaderDlg.h"
 #include "afxdialogex.h"
 
+#include "util.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -72,7 +73,7 @@ BEGIN_MESSAGE_MAP(CEPUB3ReaderDlg, CDialogEx)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_TOC, &CEPUB3ReaderDlg::OnTvnSelchangedTree1)
 	ON_BN_CLICKED(IDC_BUTTON_PRE, &CEPUB3ReaderDlg::OnBnClickedButtonPre)
 	ON_BN_CLICKED(IDC_BUTTON_NXT, &CEPUB3ReaderDlg::OnBnClickedButtonNxt)
-	ON_COMMAND(ID_32773, &CEPUB3ReaderDlg::On32773)
+	ON_COMMAND(ID_RELOAD, &CEPUB3ReaderDlg::OnReload)
 END_MESSAGE_MAP()
 
 
@@ -194,8 +195,18 @@ HCURSOR CEPUB3ReaderDlg::OnQueryDragIcon()
 void CEPUB3ReaderDlg::SetWindowCaption()
 {
 	std::string sTitle = g_cpp2ReadiumJS.getBookTitle();
+	std::wstring wstr = Ansi2Wide(sTitle);
+	sTitle = Wide2Ansi(wstr, CP_ACP);
 	CString cstr(sTitle.c_str());
-	SetWindowText((LPCTSTR)(cstr + CString("SDKLauncher-Win")));
+	if (!cstr.IsEmpty())
+	{
+		cstr += CString("-EPUB3Reader[EPUB3ÔÄ¶ÁÆ÷]");
+	}
+	else
+	{
+		cstr = CString("EPUB3Reader[EPUB3ÔÄ¶ÁÆ÷]");
+	}
+	SetWindowText((LPCTSTR)cstr);
 }
 
 
@@ -203,7 +214,22 @@ void CEPUB3ReaderDlg::digInto(TOCEntry& tocEntry, HTREEITEM hParent)
 {
 	for (int i = 0; i < (int)tocEntry.arrChildren.size(); ++i)
 	{
+		//ÂÒÂë½â¾ö
+		std::string tocName = tocEntry.arrChildren[i].sTOCName;
+		std::wstring wstr = Ansi2Wide(tocName);
+		tocName = Wide2Ansi(wstr, CP_ACP);
+		tocEntry.arrChildren[i].sTOCName = tocName;
+
 		CString ss(tocEntry.arrChildren[i].sTOCName.c_str());
+
+		//LPTSTR s1 = ss.GetBuffer();
+		//std::string ss2 = utf8_encode(ss.GetBuffer());
+		//std::wstring ss3 = s2ws(ss2);
+		//TRACE("\n");
+		//TRACE(ss3.c_str());
+		//tocEntry.arrChildren[i].sTOCName = utf8_encode(ss3);
+		//ss = tocEntry.arrChildren[i].sTOCName.c_str();
+		//TRACE("\n");
 		CString ss1(tocEntry.arrChildren[i].sURI.c_str());
 
 		HTREEITEM hItem = 0;
@@ -410,7 +436,7 @@ void CEPUB3ReaderDlg::OnBnClickedButtonNxt()
 }
 
 
-void CEPUB3ReaderDlg::On32773()
+void CEPUB3ReaderDlg::OnReload()
 {
 	// TODO: Add your command handler code here
 	CefRefPtr<CefBrowser> browser;

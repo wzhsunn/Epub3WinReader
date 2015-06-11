@@ -57,5 +57,5 @@ public:
 	afx_msg void OnOpenEpub();
 	afx_msg void OnBnClickedButtonPre();
 	afx_msg void OnBnClickedButtonNxt();
-	afx_msg void On32773();
+	afx_msg void OnReload();
 };

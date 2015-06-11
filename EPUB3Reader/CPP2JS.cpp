@@ -748,6 +748,7 @@ void ReadiumJSApi::initReadiumSDK()
     
     ePub3::InitializeSdk();
     ePub3::PopulateFilterManager();
+	ePub3::SetCurrentLocale("");
     //ePub3::ContentModuleManager::Instance();
 }
 ReadiumJSApi::ReadiumJSApi(CExplorer*pWebBrowser_):WebBrowser(pWebBrowser_), bMediaOverlayToggled(false)

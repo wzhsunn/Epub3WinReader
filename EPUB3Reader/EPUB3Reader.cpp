@@ -48,16 +48,6 @@ BOOL CEPUB3ReaderApp::InitInstance()
 		int exit_code = CefExecuteProcess(main_args, app.get(), nullptr);
 		if (exit_code >= 0)
 			return exit_code;
-
-		// Parse command line arguments. The passed in values are ignored on Windows.
-		//AppInitCommandLine(0, NULL);
-
-		//CefSettings settings;
-
-		//// Populate the settings based on command line arguments.
-		//AppGetSettings(settings);
-
-		//CefRefPtr<CefCommandLine>			CommandLine;
 		CefSettings							settings;
 		CefSettingsTraits::init(&settings);
 		settings.command_line_args_disabled = false;
@@ -68,7 +58,7 @@ BOOL CEPUB3ReaderApp::InitInstance()
 
 		//settings.multi_threaded_message_loop = CommandLine->HasSwitch("multi-threaded-message-loop");
 		settings.multi_threaded_message_loop = true;
-		//bool bl = settings.multi_threaded_message_loop;
+		
 		// Initialize CEF.
 		CefInitialize(main_args, settings, app.get(), nullptr);
 
