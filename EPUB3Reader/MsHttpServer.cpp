@@ -221,7 +221,7 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
     //LPCSTR ptr = strA;
 	ADD_KNOWN_HEADER(response, HttpHeaderContentType, mimeTxt.c_str()/*ptr"text/html"*/);
 	//inject mathmjax
-#if 0
+#if 1
 	{
 		std::string url = pRequest->pRawUrl;
 		TRACE(url.c_str());
@@ -231,18 +231,20 @@ DWORD MSHttpAPIWrapper::SendHttpResponse(IN PHTTP_REQUEST pRequest, IN USHORT St
 			
 			std::string html(bytes, bytes + size);
 
+			if (html.find("<math") != std::string::npos || html.find("<m:math") != std::string::npos)
+			{
+				int pos = html.find("</head>");
 
-			int pos = html.find("</head>");
-			std::string injectMathJax = "<script type=\"text/javascript\" src=\"../mathjax/MathJax.js\"> </script>\n";
-			std::string htmlWithMath = html.substr(0, pos) + injectMathJax + html.substr(pos);
-			//TRACE(htmlWithMath.c_str());
-			
-			char* p = (char*)(htmlWithMath.c_str());
-			size = size + injectMathJax.length();
-			delete[] bytes;
-			bytes = new BYTE[size];
-			memcpy(bytes, p, size);
-			
+				std::string injectMathJax = "<script type=\"text/javascript\" src=\"../mathjax/MathJax.js\"> </script>\n";
+				std::string htmlWithMath = html.substr(0, pos) + injectMathJax + html.substr(pos);
+				//TRACE(htmlWithMath.c_str());
+
+				char* p = (char*)(htmlWithMath.c_str());
+				size = size + injectMathJax.length();
+				delete[] bytes;
+				bytes = new BYTE[size];
+				memcpy(bytes, p, size);
+			}
 		}
 	}
 #endif
