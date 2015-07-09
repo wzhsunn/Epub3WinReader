@@ -155,10 +155,10 @@ void ReadiumJSApi::on_actionOpen_ePub3(std::string path)	//QString fileName = QF
                 auto pkgs = container->Packages();
                 if (pkgs.size() <= 0)
                 {
-                    //QMessageBox messageBox;
-                    //messageBox.critical(0, "Error", "ReadiumSDK: No packages found !");
-                    //messageBox.setFixedSize(500, 200);
-                    //messageBox.exec();
+					//QMessageBox messageBox;
+					//messageBox.critical(0, "Error", "ReadiumSDK: No packages found !");
+					//messageBox.setFixedSize(500, 200);
+					//messageBox.exec();
                     return;
                 }
                 pkg = pkgs[0];

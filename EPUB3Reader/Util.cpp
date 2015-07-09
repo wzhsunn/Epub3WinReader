@@ -17,6 +17,7 @@ std::wstring Ansi2Wide(const std::string &str, UINT codePage)
 		return L"";
 	}
 }
+
 std::string Wide2Ansi(const std::wstring &wstr, UINT codePage)
 {
 	if (wstr.length() > 0)

@@ -28,10 +28,10 @@ public:
 	CefRefPtr<CefContextMenuParams> params,
 	CefRefPtr<CefMenuModel> model) OVERRIDE;
 	virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser,
-	CefRefPtr<CefFrame> frame,
-	CefRefPtr<CefContextMenuParams> params,
-	int command_id,
-	EventFlags event_flags) OVERRIDE;
+		CefRefPtr<CefFrame> frame,
+		CefRefPtr<CefContextMenuParams> params,
+		int command_id,
+		EventFlags event_flags) OVERRIDE;
 
 	void ShowDevTools(CefRefPtr<CefBrowser> browser,
 		const CefPoint& inspect_element_at);
@@ -51,7 +51,7 @@ public:
 	// release the browser reference  
 	virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 #pragma endregion // CefLifeSpanHandler    
-
+	 
 #pragma region CefLoadHandler
 	virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE{
 		return this;
